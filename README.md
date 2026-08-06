@@ -34,13 +34,36 @@ Cada vez que se haga `push` a `main`, el workflow de
 `.github/workflows/deploy.yml` publica el juego automáticamente en GitHub Pages.
 Activa Pages en los ajustes del repositorio (Source: GitHub Actions).
 
-## 📱 Sobre el APK
+## 📱 Generar el APK de Android (de verdad)
 
-El juego está hecho para **web (HTML5)** a propósito. Es la forma más confiable de
-tener algo que *de verdad se pueda jugar* en cualquier dispositivo sin procesos
-de compilación frágiles. Una vez publicado en la web, se puede convertir a APK
-de Android de forma independiente (por ejemplo envolviéndolo en una WebView con
-Capacitor/Cordova). Ese paso se puede hacer después, cuando el juego ya exista.
+El proyecto está envuelto con **Capacitor**, de modo que el mismo juego web se
+empaqueta como una app nativa de Android. La compilación del APK se hace en
+**GitHub Actions** (allí sí hay Java y el SDK de Android), no en este sandbox.
+
+### Pasos
+
+1. Sube a `main` el archivo `.github/workflows/build-apk.yml` (Arena no tiene
+   permiso para subir archivos de `.github/workflows`; crea tú el archivo en
+   GitHub con ese contenido, o súbelo con un usuario que tenga ese permiso).
+2. En tu repo, abre la pestaña **Actions** → **Build Android APK** →
+   **Run workflow**.
+3. Cuando termine, abre esa ejecución y descarga el artefacto
+   **`sombra-debug-apk`**. Dentro viene `app-debug.apk`.
+4. Pásalo a tu celular e instálalo (activa "instalar apps de orígenes
+   desconocidos").
+
+El APK es una versión *debug* (funciona y se instala sin problemas). Para
+publicarla en Play Store luego habría que firmarla con una clave de release.
+
+### Si prefieres compilar en tu PC
+
+Necesitas Android Studio (o Android SDK) + JDK 17:
+
+```bash
+npm install
+npx cap sync android
+npx cap open android      # se abre Android Studio; Build > Build APK
+```
 
 ## 🗂️ Estructura
 
@@ -53,6 +76,8 @@ js/player.js        Física y animación del personaje
 js/drone.js         Enemigos y detección por cono de luz
 js/particles.js     Polvo flotante ambiental
 js/game.js          Bucle principal, cámara y estados
+capacitor.config.json + android/   Proyecto nativo para el APK
+.github/workflows/build-apk.yml    Compila el APK en GitHub Actions
 ```
 
 ## 🛣️ Ideas para seguir

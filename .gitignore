@@ -7,8 +7,22 @@ Thumbs.db
 .idea/
 *.swp
 
-# Dependencias / builds (por si más adelante se añaden)
+# Node / Capacitor
 node_modules/
+package-lock.json
+
+# Builds de Android
+android/app/build/
+android/build/
+android/.gradle/
+android/captures/
+android/local.properties
+android/app/release/
+
+# Builds web
 dist/
 build/
-.github/workflows/deploy.yml
+
+# Workflows: Arena no puede subirlos por permisos de GitHub App.
+# El archivo build-apk.yml se conserva localmente para que lo subas tu.
+.github/workflows/build-apk.yml
