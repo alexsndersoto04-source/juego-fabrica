@@ -26,7 +26,7 @@ const LEVEL = (() => {
     { x: 3320, y: 400, w: 130, h: 24 },
     { x: 3520, y: 320, w: 220, h: 24 },
 
-    { x: 4050, y: GROUND_Y, w: 350, h: 200 },
+    { x: 3980, y: GROUND_Y, w: 420, h: 200 },
     { x: 4500, y: GROUND_Y, w: 500, h: 200 },
     { x: 4430, y: 440, w: 120, h: 24 },
     { x: 4900, y: 420, w: 140, h: 24 },
@@ -42,13 +42,22 @@ const LEVEL = (() => {
     { x: 1550, y: 230, x1: 1400, x2: 1900, cone: 280, speed: 70 },
     { x: 2350, y: 210, x1: 2150, x2: 2850, cone: 320, speed: 90 },
     { x: 3400, y: 180, x1: 3050, x2: 3740, cone: 260, speed: 110 },
-    { x: 4250, y: 250, x1: 3950, x2: 4700, cone: 300, speed: 100 },
+    { x: 4250, y: 250, x1: 4000, x2: 4700, cone: 300, speed: 100 },
     { x: 4600, y: 170, x1: 4400, x2: 5150, cone: 260, speed: 130 },
     { x: 5100, y: 220, x1: 4850, x2: 5550, cone: 300, speed: 120 },
     { x: 5800, y: 200, x1: 5500, x2: 6100, cone: 240, speed: 140 },
   ];
 
   const goal = { x: 6180, y: 210, w: 60, h: 100 };
+
+  // Checkpoints: hogueras/postes de luz donde reapareces al morir.
+  // Colocados en suelo seguro entre zonas difíciles.
+  const checkpoints = [
+    { x: 1320,  y: GROUND_Y - 54 },
+    { x: 2880,  y: GROUND_Y - 54 },
+    { x: 4100,  y: GROUND_Y - 54 },
+    { x: 5050,  y: GROUND_Y - 54 },
+  ];
 
   const backdrop = [
     {
@@ -81,5 +90,5 @@ const LEVEL = (() => {
 
   const lampPosts = [220, 680, 1200, 1750, 2300, 2900, 3450, 4050, 4600, 5100, 5650, 6050];
 
-  return { WORLD_WIDTH, WORLD_HEIGHT, GROUND_Y, platforms, drones, goal, backdrop, lampPosts };
+  return { WORLD_WIDTH, WORLD_HEIGHT, GROUND_Y, platforms, drones, checkpoints, goal, backdrop, lampPosts };
 })();

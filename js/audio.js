@@ -174,6 +174,24 @@ const Audio = (() => {
     noise.start(t); noise.stop(t + 0.5);
   }
 
+  // Checkpoint: dos notas suaves y cristalinas
+  function checkpoint() {
+    if (!ctx) return;
+    const notes = [523.25, 783.99];
+    notes.forEach((freq, i) => {
+      const t = ctx.currentTime + i * 0.12;
+      const osc = ctx.createOscillator();
+      osc.type = "triangle";
+      osc.frequency.value = freq;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.12, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+      osc.connect(gain); gain.connect(masterGain);
+      osc.start(t); osc.stop(t + 0.55);
+    });
+  }
+
   // Victoria: notas esperanzadoras
   function win() {
     if (!ctx) return;
@@ -192,5 +210,13 @@ const Audio = (() => {
     });
   }
 
-  return { init, resume, footstep, jump, land, droneAlert, death, win };
+  // Silenciar/activar todo el audio
+  let muted = false;
+  function setMuted(m) {
+    muted = m;
+    if (masterGain) masterGain.gain.value = m ? 0 : 0.6;
+  }
+  function isMuted() { return muted; }
+
+  return { init, resume, footstep, jump, land, droneAlert, death, win, checkpoint, setMuted, isMuted };
 })();

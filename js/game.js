@@ -9,20 +9,31 @@
   const titleScreen = document.getElementById("title-screen");
   const deathScreen = document.getElementById("death-screen");
   const winScreen  = document.getElementById("win-screen");
+  const pauseScreen = document.getElementById("pause-screen");
   const hud        = document.getElementById("hud");
+  const soundBtn   = document.getElementById("sound-btn");
   const touchControls = document.getElementById("touch-controls");
 
   let viewW = 0, viewH = 0, scale = 1;
   let lastTime = 0;
-  let state = "title"; // title | playing | dead | win
+  let state = "title"; // title | playing | paused | dead | win
   let deathTimer = 0;
 
   const cam = { x: 0, y: 0, shake: 0 };
-  let player, drones, particles;
+  let player, drones, checkpoints, particles;
+  let activeCheckpoint = null;
   const START_X = 80, START_Y = 400;
 
   const input = {
     left: false, right: false, jump: false, jumpPressed: false,
+  };
+
+  // Eventos que otros módulos pueden disparar
+  window.GameEvents = {
+    onCheckpoint(cp) {
+      activeCheckpoint = cp;
+      Audio.checkpoint();
+    }
   };
 
   // ---------- Configuración de tamaño ----------
@@ -37,7 +48,6 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     scale = Math.max(0.6, Math.min(1.4, viewW / 1280));
 
-    // Mostrar controles táctiles en pantallas táctiles
     if (window.matchMedia("(pointer: coarse)").matches) {
       touchControls.classList.remove("hidden");
     }
@@ -45,22 +55,39 @@
   window.addEventListener("resize", resize);
 
   // ---------- Inicialización del mundo ----------
-  function startGame() {
+  function buildWorld() {
     player = new Player(START_X, START_Y);
     drones = LEVEL.drones.map(d => new Drone(d));
+    checkpoints = LEVEL.checkpoints.map(c => new Checkpoint(c.x, c.y));
     particles = new Particles(120, viewW, viewH);
+    activeCheckpoint = null;
     cam.x = 0; cam.y = 0; cam.shake = 0;
+  }
+
+  function startGame() {
+    buildWorld();
     state = "playing";
     titleScreen.classList.add("hidden");
     deathScreen.classList.add("hidden");
     winScreen.classList.add("hidden");
+    pauseScreen.classList.add("hidden");
     hud.classList.remove("hidden");
     Audio.init();
     Audio.resume();
   }
 
-  function retry() {
-    startGame();
+  function respawnAtCheckpoint() {
+    // Reaparecer en el checkpoint activo, reiniciando drones
+    drones = LEVEL.drones.map(d => new Drone(d));
+    checkpoints.forEach(c => { if (c !== activeCheckpoint) c.reset(); });
+    const spawn = activeCheckpoint
+      ? { x: activeCheckpoint.x - player.w / 2, y: activeCheckpoint.y + activeCheckpoint.h - player.h }
+      : { x: START_X, y: START_Y };
+    player.reset(spawn.x, spawn.y);
+    state = "playing";
+    deathScreen.classList.add("hidden");
+    hud.classList.remove("hidden");
+    cam.shake = 0;
   }
 
   function die() {
@@ -68,6 +95,7 @@
     state = "dead";
     cam.shake = 18;
     deathTimer = 0;
+    if (navigator.vibrate) navigator.vibrate([120, 60, 200]);
   }
 
   function win() {
@@ -78,16 +106,33 @@
     winScreen.classList.remove("hidden");
   }
 
+  function togglePause() {
+    if (state === "playing") {
+      state = "paused";
+      pauseScreen.classList.remove("hidden");
+    } else if (state === "paused") {
+      state = "playing";
+      pauseScreen.classList.add("hidden");
+    }
+  }
+
+  function toggleSound() {
+    const muted = !Audio.isMuted();
+    Audio.setMuted(muted);
+    soundBtn.textContent = muted ? "🔇" : "🔊";
+  }
+
   // ---------- Entrada ----------
   const keys = {};
   window.addEventListener("keydown", (e) => {
-    if (["ArrowLeft","ArrowRight","ArrowUp","Space","KeyA","KeyD","KeyW"].includes(e.code)) {
+    if (["ArrowLeft","ArrowRight","ArrowUp","Space","KeyA","KeyD","KeyW","KeyP","Escape"].includes(e.code)) {
       e.preventDefault();
     }
     if (!keys[e.code]) {
       if (e.code === "Space" || e.code === "ArrowUp" || e.code === "KeyW") {
         input.jumpPressed = true;
       }
+      if (e.code === "KeyP" || e.code === "Escape") togglePause();
     }
     keys[e.code] = true;
     Audio.resume();
@@ -120,8 +165,12 @@
   bindTouch("btn-jump", "jump");
 
   document.getElementById("start-btn").addEventListener("click", startGame);
-  document.getElementById("retry-btn").addEventListener("click", retry);
-  document.getElementById("win-btn").addEventListener("click", retry);
+  document.getElementById("retry-btn").addEventListener("click", respawnAtCheckpoint);
+  document.getElementById("win-btn").addEventListener("click", startGame);
+  document.getElementById("resume-btn").addEventListener("click", togglePause);
+  document.getElementById("restart-btn").addEventListener("click", startGame);
+  document.getElementById("pause-btn").addEventListener("click", togglePause);
+  soundBtn.addEventListener("click", toggleSound);
 
   // ---------- Cámara ----------
   function updateCamera(dt) {
@@ -138,22 +187,22 @@
 
   // ---------- Actualización ----------
   function update(dt) {
-    if (state !== "playing") {
-      if (state === "dead") {
-        deathTimer += dt;
-        if (deathTimer > 0.9) {
-          hud.classList.add("hidden");
-          deathScreen.classList.remove("hidden");
-        }
+    if (state === "dead") {
+      deathTimer += dt;
+      if (deathTimer > 0.9) {
+        hud.classList.add("hidden");
+        deathScreen.classList.remove("hidden");
       }
       return;
     }
+    if (state !== "playing") return;
 
     readKeyboard();
     player.update(dt, input, LEVEL.platforms);
     input.jumpPressed = false; // consumir
 
     for (const d of drones) d.update(dt, player);
+    for (const c of checkpoints) c.update(dt, player);
 
     if (player.dead) { die(); return; }
 
@@ -177,7 +226,6 @@
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, viewW, viewH);
 
-    // una luna / luz lejana difuminada
     const moonX = viewW * 0.78 - cam.x * 0.05;
     const moonY = viewH * 0.18;
     const mg = ctx.createRadialGradient(moonX, moonY, 0, moonX, moonY, 180);
@@ -208,11 +256,9 @@
       if (sx < -100 || sx > viewW + 100) continue;
       const groundY = LEVEL.GROUND_Y - cam.y;
 
-      // poste
       ctx.fillStyle = "#05070d";
       ctx.fillRect(sx - 1, groundY - 120, 2, 120);
 
-      // halo de luz
       const g = ctx.createRadialGradient(sx, groundY - 120, 0, sx, groundY - 120, 140);
       g.addColorStop(0, "rgba(180,200,240,0.18)");
       g.addColorStop(0.5, "rgba(120,140,190,0.05)");
@@ -233,7 +279,6 @@
       const sy = Math.round(p.y - cam.y);
       if (sx + p.w < -50 || sx > viewW + 50) continue;
 
-      // sombra superior / borde iluminado
       const grad = ctx.createLinearGradient(0, sy, 0, sy + p.h);
       grad.addColorStop(0, "#11151f");
       grad.addColorStop(0.05, "#0b0e16");
@@ -241,7 +286,6 @@
       ctx.fillStyle = grad;
       ctx.fillRect(sx, sy, p.w, p.h);
 
-      // borde superior con un tenue resplandor
       ctx.fillStyle = "rgba(90,110,150,0.25)";
       ctx.fillRect(sx, sy, p.w, 1);
     }
@@ -259,7 +303,6 @@
     ctx.fillStyle = grad;
     ctx.fillRect(sx - 130, sy - 130, g.w + 260, g.h + 260);
 
-    // puerta
     ctx.fillStyle = "#0a120e";
     ctx.fillRect(sx, sy, g.w, g.h);
     ctx.strokeStyle = "rgba(120,220,170,0.6)";
@@ -297,6 +340,8 @@
     drawBackdrop();
     drawLampPosts();
     drawPlatforms();
+
+    if (checkpoints) for (const c of checkpoints) c.draw(ctx, cam);
     drawGoal();
 
     if (player) {
@@ -315,7 +360,7 @@
     if (!lastTime) lastTime = t;
     let dt = (t - lastTime) / 1000;
     lastTime = t;
-    if (dt > 0.05) dt = 0.05; // evitar saltos grandes
+    if (dt > 0.05) dt = 0.05;
 
     update(dt);
     render();
@@ -324,7 +369,6 @@
 
   // ---------- Arranque ----------
   resize();
-  // partículas mínimas para la pantalla de título
   particles = new Particles(60, viewW, viewH);
   requestAnimationFrame(loop);
 })();
