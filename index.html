@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>SOMBRA — Un juego tipo Inside</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="game-wrap">
+    <canvas id="game"></canvas>
+
+    <!-- Pantalla de inicio -->
+    <div id="title-screen" class="overlay">
+      <h1>SOMBRA</h1>
+      <p class="sub">Corre. Salta. No dejes que la luz te encuentre.</p>
+      <button id="start-btn">COMENZAR</button>
+      <div class="controls-hint">
+        <p><strong>Mover:</strong> ← → o A / D &nbsp; • &nbsp; <strong>Saltar:</strong> Espacio / W / ↑ &nbsp; • &nbsp; <strong>Pausa:</strong> P / Esc</p>
+        <p class="mobile-hint">En celular: usa los botones en pantalla</p>
+      </div>
+    </div>
+
+    <!-- Pantalla de muerte -->
+    <div id="death-screen" class="overlay hidden">
+      <h2>LA LUZ TE ENCONTRÓ</h2>
+      <button id="retry-btn">REINTENTAR</button>
+    </div>
+
+    <!-- Pantalla de victoria -->
+    <div id="win-screen" class="overlay hidden">
+      <h2>ESCAPASTE</h2>
+      <p>La sombra se pierde en la distancia...</p>
+      <button id="win-btn">JUGAR DE NUEVO</button>
+    </div>
+
+    <!-- Menú de pausa -->
+    <div id="pause-screen" class="overlay hidden">
+      <h2>PAUSA</h2>
+      <button id="resume-btn">CONTINUAR</button>
+      <button id="restart-btn" class="secondary">REINICIAR NIVEL</button>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="objective">Llega al final · evita los drones</div>
+      <div class="hud-buttons">
+        <button id="sound-btn" class="icon-btn" title="Sonido">🔊</button>
+        <button id="pause-btn" class="icon-btn" title="Pausa">⏸</button>
+      </div>
+    </div>
+
+    <!-- Controles táctiles (móvil) -->
+    <div id="touch-controls" class="hidden">
+      <button id="btn-left" class="touch-btn">◀</button>
+      <button id="btn-right" class="touch-btn">▶</button>
+      <button id="btn-jump" class="touch-btn">▲</button>
+    </div>
+  </div>
+
+  <script>
+    // Si algo falla, mostrar un mensaje visible en vez de pantalla en negro.
+    window.addEventListener("error", function (e) {
+      var box = document.getElementById("err-box");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "err-box";
+        box.style.cssText = "position:fixed;inset:0;z-index:9999;background:#000;color:#ff8a80;padding:24px;font:14px/1.6 monospace;overflow:auto;white-space:pre-wrap;";
+        document.body.appendChild(box);
+      }
+      box.textContent = "ERROR: " + (e.message || e) + "\n" + (e.filename || "") + ":" + (e.lineno || "");
+    });
+  </script>
+  <script src="js/audio.js"></script>
+  <script src="js/level.js"></script>
+  <script src="js/checkpoint.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/drone.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

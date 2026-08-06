@@ -1,0 +1,28 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Node / Capacitor
+node_modules/
+package-lock.json
+
+# Builds de Android
+android/app/build/
+android/build/
+android/.gradle/
+android/captures/
+android/local.properties
+android/app/release/
+
+# Builds web
+dist/
+build/
+
+# Workflows: Arena no puede subirlos por permisos de GitHub App.
+# El archivo build-apk.yml se conserva localmente para que lo subas tu.
+.github/workflows/build-apk.yml
