@@ -1,0 +1,14 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Dependencias / builds (por si más adelante se añaden)
+node_modules/
+dist/
+build/
+.github/workflows/deploy.yml
