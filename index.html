@@ -58,6 +58,19 @@
     </div>
   </div>
 
+  <script>
+    // Si algo falla, mostrar un mensaje visible en vez de pantalla en negro.
+    window.addEventListener("error", function (e) {
+      var box = document.getElementById("err-box");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "err-box";
+        box.style.cssText = "position:fixed;inset:0;z-index:9999;background:#000;color:#ff8a80;padding:24px;font:14px/1.6 monospace;overflow:auto;white-space:pre-wrap;";
+        document.body.appendChild(box);
+      }
+      box.textContent = "ERROR: " + (e.message || e) + "\n" + (e.filename || "") + ":" + (e.lineno || "");
+    });
+  </script>
   <script src="js/audio.js"></script>
   <script src="js/level.js"></script>
   <script src="js/checkpoint.js"></script>

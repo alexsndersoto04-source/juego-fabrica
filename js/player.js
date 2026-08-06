@@ -161,9 +161,9 @@ class Player {
     ctx.rect(cx + 2, sy + 30 - crouch, 4, 16 - swing);
     ctx.fill();
 
-    // torso
+    // torso (rect en vez de roundRect para compatibilidad con navegadores viejos)
     ctx.beginPath();
-    ctx.roundRect(cx - 7, sy + 16 - crouch, 14, 18, 3);
+    ctx.rect(cx - 7, sy + 16 - crouch, 14, 18);
     ctx.fill();
 
     // cabeza

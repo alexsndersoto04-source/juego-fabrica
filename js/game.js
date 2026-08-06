@@ -48,9 +48,9 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     scale = Math.max(0.6, Math.min(1.4, viewW / 1280));
 
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      touchControls.classList.remove("hidden");
-    }
+    let coarse = false;
+    try { coarse = window.matchMedia && window.matchMedia("(pointer: coarse)").matches; } catch (e) {}
+    if (coarse) touchControls.classList.remove("hidden");
   }
   window.addEventListener("resize", resize);
 
