@@ -37,10 +37,10 @@ static std::string get_workbench_html() {
             --text-sub: #52525b;
             --text-muted: #71717a;
             --text-link: #1a0dab;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --shadow-search: 0 1px 6px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --shadow-search: 0 1px 6px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.06);
             --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.16);
             --radius-pill: 9999px;
             --radius-card: 14px;
@@ -63,7 +63,7 @@ static std::string get_workbench_html() {
             overflow-x: hidden;
         }
 
-        /* Top Minimal Header */
+        /* Top Minimalist Header */
         .top-navbar {
             display: flex;
             align-items: center;
@@ -111,7 +111,7 @@ static std::string get_workbench_html() {
             user-select: none;
         }
 
-        /* Main Search Viewport (Clean Google-style Luxury Minimalist) */
+        /* Main Search Viewport */
         .search-viewport {
             flex: 1;
             display: flex;
@@ -130,14 +130,15 @@ static std::string get_workbench_html() {
             font-weight: 800;
             letter-spacing: -2.5px;
             color: #09090b;
+            margin-top: 10px;
             margin-bottom: 26px;
             user-select: none;
             line-height: 1;
         }
 
         @media (max-width: 480px) {
-            .nuby-logo-solid { font-size: 46px; margin-bottom: 22px; }
-            .search-viewport { padding-top: 32px; }
+            .nuby-logo-solid { font-size: 46px; margin-bottom: 20px; }
+            .search-viewport { padding-top: 28px; }
         }
 
         /* Google-grade Minimalist Omnibox */
@@ -580,7 +581,7 @@ static std::string get_workbench_html() {
             margin: 8px 0;
         }
 
-        /* Functional Submenus Modals (Configuracion, Historial, Marcadores, Descargas, Indexador, Acerca de) */
+        /* Functional Submenus Modals (Configuración, Historial, Marcadores, Descargas, Indexador, Acerca de) */
         .modal-screen-wrapper {
             position: fixed;
             inset: 0;
@@ -703,7 +704,7 @@ static std::string get_workbench_html() {
 
     <!-- 1. Top Minimalist Header -->
     <header class="top-navbar">
-        <div class="nav-left" style="display:flex; align-items:center; gap:10px;">
+        <div style="display:flex; align-items:center; gap:12px;">
             <button class="hamburger-btn" title="Menú de Nuby" onclick="toggleMenuDrawer()">
                 <div class="hamburger-line"></div>
                 <div class="hamburger-line"></div>
@@ -711,8 +712,8 @@ static std::string get_workbench_html() {
             </button>
             <div class="nav-brand-title" onclick="resetToHome()">Nuby</div>
         </div>
-        <div class="nav-right">
-            <button class="icon-btn" title="Configuración" onclick="openModal('settingsModal')">
+        <div>
+            <button class="hamburger-btn" title="Ajustes rápidos" onclick="openModal('settingsModal')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
             </button>
         </div>
@@ -721,7 +722,7 @@ static std::string get_workbench_html() {
     <!-- 2. Central Minimalist Search Workspace -->
     <main class="search-viewport">
 
-        <!-- Solid Black Brand Logo (No Google colors) -->
+        <!-- Solid Black Bold Nuby Logo (No overlap, clean margin) -->
         <h1 class="nuby-logo-solid" id="brandLogo">Nuby</h1>
 
         <!-- Google-grade Clean Omnibox -->
@@ -808,7 +809,7 @@ static std::string get_workbench_html() {
             <div style="font-weight:800; font-size:20px; color:#09090b; letter-spacing:-0.5px;">
                 Nuby
             </div>
-            <button class="icon-btn" onclick="toggleMenuDrawer()">✕</button>
+            <button class="hamburger-btn" onclick="toggleMenuDrawer()">✕</button>
         </div>
         <div class="drawer-navigation-list">
             <div class="drawer-nav-item" onclick="openModal('settingsModal')">
@@ -844,7 +845,7 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>⚙️ Configuración de Nuby</span>
-                <button class="icon-btn" onclick="closeModal('settingsModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('settingsModal')">✕</button>
             </div>
             <div class="modal-content-area">
                 <div class="config-row">
@@ -896,7 +897,7 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>🕒 Historial de Navegación</span>
-                <button class="icon-btn" onclick="closeModal('historyModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('historyModal')">✕</button>
             </div>
             <div class="modal-content-area" id="historyContentList">
             </div>
@@ -908,7 +909,7 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>⭐ Marcadores y Favoritos</span>
-                <button class="icon-btn" onclick="closeModal('bookmarksModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('bookmarksModal')">✕</button>
             </div>
             <div class="modal-content-area" id="bookmarksContentList">
             </div>
@@ -920,7 +921,7 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>📥 Descargas de Archivos</span>
-                <button class="icon-btn" onclick="closeModal('downloadsModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('downloadsModal')">✕</button>
             </div>
             <div class="modal-content-area" id="downloadsContentList">
             </div>
@@ -932,11 +933,11 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>⚡ Indexador por Lotes Nuby</span>
-                <button class="icon-btn" onclick="closeModal('crawlerModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('crawlerModal')">✕</button>
             </div>
             <div class="modal-content-area">
                 <p style="font-size:14px; color:var(--text-sub); line-height:1.6;">
-                    El crawler de Nuby indexa páginas y plataformas de video por lotes de 5 elementos con descansos de 400ms para operar de por vida en servidores gratuitos sin saturar memoria ni ancho de banda.
+                    El crawler de Nuby indexa páginas y plataformas de video por lotes de 5 elementos con descansos de 400ms para operar de por vida en servidores como Render sin saturar memoria ni CPU.
                 </p>
                 <button class="primary-action-btn" id="crawlerTriggerBtn" style="width:100%; height:44px; margin-top:6px;" onclick="runBatchCrawler()">
                     ⚡ Iniciar Ciclo de Indexación por Lotes
@@ -951,7 +952,7 @@ static std::string get_workbench_html() {
         <div class="modal-surface">
             <div class="modal-top-bar">
                 <span>ℹ️ Acerca de Nuby</span>
-                <button class="icon-btn" onclick="closeModal('aboutModal')">✕</button>
+                <button class="hamburger-btn" onclick="closeModal('aboutModal')">✕</button>
             </div>
             <div class="modal-content-area">
                 <div style="font-size:24px; font-weight:800; color:#09090b;">Nuby v1.0.0</div>
@@ -962,7 +963,7 @@ static std::string get_workbench_html() {
                     • Núcleo: C++20 ISO Standard<br>
                     • Latencia del Pipeline: 2.8 ms - 3.6 ms<br>
                     • Consumo de Memoria: &lt; 20 MB<br>
-                    • Estado: Listo para Alojamiento 24/7
+                    • Estado: Listo para Alojamiento 24/7 en Render
                 </div>
             </div>
         </div>
