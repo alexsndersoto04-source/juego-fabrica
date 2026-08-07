@@ -7,6 +7,10 @@ Thumbs.db
 .idea/
 *.swp
 
+# Binarios de arquitectura (ARM64 / x86_64)
+nuby_engine/bin/
+bin/
+
 # Node / Capacitor
 node_modules/
 package-lock.json
@@ -23,6 +27,5 @@ android/app/release/
 dist/
 build/
 
-# Workflows: Arena no puede subirlos por permisos de GitHub App.
-# El archivo build-apk.yml se conserva localmente para que lo subas tu.
+# Workflows
 .github/workflows/build-apk.yml
