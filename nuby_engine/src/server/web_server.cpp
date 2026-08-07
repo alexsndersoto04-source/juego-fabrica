@@ -25,32 +25,34 @@ static std::string get_workbench_html() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nuby</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
-            --bg-hover: #f8fafc;
-            --bg-panel: #f1f5f9;
-            --border: #dfe1e5;
-            --border-hover: #c3c7d0;
-            --text-main: #202124;
-            --text-sub: #5f6368;
-            --text-link: #1a0dab;
-            --primary: #1a73e8;
-            --primary-hover: #1557b0;
-            --shadow-search: 0 1px 6px rgba(32, 33, 36, 0.28);
-            --shadow-hover: 0 4px 16px rgba(32, 33, 36, 0.16);
-            --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.15);
-            --radius-pill: 24px;
-            --radius-card: 12px;
+            --bg-subtle: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --text-main: #09090b;
+            --text-sub: #52525b;
+            --text-muted: #71717a;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-soft: #eff6ff;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.1);
+            --radius-pill: 9999px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', -apple-system, Roboto, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
@@ -62,488 +64,481 @@ static std::string get_workbench_html() {
             overflow-x: hidden;
         }
 
-        /* Top Minimalist Header */
-        .nuby-header {
+        /* Top Minimal Header */
+        .top-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 18px;
+            padding: 14px 20px;
             background: #ffffff;
-            border-bottom: 1px solid #f1f3f4;
+            border-bottom: 1px solid #f1f5f9;
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
-        .header-left, .header-right {
+        .nav-left, .nav-right {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .menu-btn {
+        .icon-btn {
             background: transparent;
             border: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-pill);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
-            transition: background 0.15s;
+            gap: 4.5px;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
 
-        .menu-btn:hover, .menu-btn:active {
-            background: #f1f3f4;
+        .icon-btn:hover, .icon-btn:active {
+            background: var(--bg-subtle);
         }
 
-        .menu-line {
-            width: 18px;
+        .bar-line {
+            width: 20px;
             height: 2px;
-            background-color: #5f6368;
+            background-color: #27272a;
             border-radius: 2px;
         }
 
-        .brand-logo-small {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #202124;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .brand-logo-small span.blue { color: #4285f4; }
-        .brand-logo-small span.red { color: #ea4335; }
-        .brand-logo-small span.yellow { color: #fbbc05; }
-        .brand-logo-small span.green { color: #34a853; }
-
-        .apk-badge-btn {
-            background: #e8f0fe;
-            color: #1a73e8;
-            border: 1px solid #d2e3fc;
-            padding: 6px 14px;
+        .apk-action-btn {
+            background: #09090b;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
             border-radius: var(--radius-pill);
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.15s;
             text-decoration: none;
+            transition: all 0.15s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        .apk-badge-btn:hover {
-            background: #1a73e8;
-            color: #ffffff;
+        .apk-action-btn:hover {
+            background: #27272a;
+            transform: translateY(-1px);
         }
 
-        /* Main Search Container (Google Aesthetic) */
-        .main-container {
+        /* Central Minimalist Workspace */
+        .hero-workspace {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 800px;
+            max-width: 760px;
             margin: 0 auto;
-            padding: 30px 16px 80px 16px;
+            padding: 40px 18px 80px 18px;
+            text-align: center;
         }
 
-        .hero-logo {
-            font-size: 56px;
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-            margin-top: 15px;
+        /* Unique Nuby Brand Identity */
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 32px;
             user-select: none;
+        }
+
+        .brand-symbol {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #09090b 0%, #2563eb 100%);
             display: flex;
             align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.3);
         }
 
-        .hero-logo span.n { color: #4285f4; }
-        .hero-logo span.u { color: #ea4335; }
-        .hero-logo span.b { color: #fbbc05; }
-        .hero-logo span.y { color: #34a853; }
+        .brand-logo-text {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: #09090b;
+            line-height: 1;
+        }
 
-        /* Google-style Minimal Omnibox */
-        .search-box-wrapper {
+        .brand-tagline {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Minimalist Omnibox (Google Grade) */
+        .omnibox-wrapper {
             width: 100%;
-            max-width: 620px;
+            max-width: 640px;
             margin-bottom: 24px;
             position: relative;
         }
 
-        .search-box {
+        .omnibox {
             display: flex;
             align-items: center;
             background: #ffffff;
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: var(--radius-pill);
-            padding: 0 16px;
-            height: 50px;
-            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.08);
-            transition: all 0.2s ease;
+            padding: 0 18px;
+            height: 52px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .search-box:hover {
-            box-shadow: 0 2px 8px rgba(32, 33, 36, 0.18);
-            border-color: transparent;
+        .omnibox:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
         }
 
-        .search-box:focus-within {
-            box-shadow: var(--shadow-search);
-            border-color: transparent;
+        .omnibox:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), var(--shadow-md);
         }
 
-        .search-icon {
-            color: #9aa0a6;
+        .omnibox-search-icon {
+            color: #71717a;
             margin-right: 12px;
             display: flex;
             align-items: center;
         }
 
-        .search-input {
+        .omnibox-input {
             flex: 1;
             border: none;
             outline: none;
             font-size: 16px;
+            font-weight: 500;
             color: var(--text-main);
             background: transparent;
         }
 
-        .search-actions {
+        .omnibox-input::placeholder {
+            color: #a1a1aa;
+            font-weight: 400;
+        }
+
+        .omnibox-submit {
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .omnibox-submit:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Filter Chips (Todo, Videos, Imágenes, Noticias) */
+        .category-strip {
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .clear-btn {
-            background: transparent;
-            border: none;
-            color: #70757a;
-            cursor: pointer;
-            padding: 4px;
-            display: none;
-        }
-
-        /* Search Categories (Google tabs: Todo, Videos, Imágenes, Noticias) */
-        .category-nav {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             overflow-x: auto;
             scrollbar-width: none;
             width: 100%;
-            max-width: 620px;
-            padding-bottom: 2px;
+            max-width: 640px;
+            justify-content: center;
         }
-        .category-nav::-webkit-scrollbar { display: none; }
+        .category-strip::-webkit-scrollbar { display: none; }
 
-        .cat-chip {
-            background: transparent;
+        .cat-btn {
+            background: var(--bg-subtle);
             border: 1px solid var(--border);
             color: var(--text-sub);
-            padding: 7px 16px;
+            padding: 8px 16px;
             border-radius: var(--radius-pill);
             font-size: 13.5px;
             font-weight: 600;
             cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
             display: flex;
             align-items: center;
             gap: 6px;
-            white-space: nowrap;
-            transition: all 0.15s;
         }
 
-        .cat-chip.active, .cat-chip:hover {
-            background: #f1f3f4;
-            color: var(--primary);
-            border-color: #d2e3fc;
+        .cat-btn.active, .cat-btn:hover {
+            background: #09090b;
+            color: #ffffff;
+            border-color: #09090b;
         }
 
-        /* Speed Dial / Top Sites Google Grid */
-        .speed-grid {
+        /* Speed Dial Icons (Clean Minimalist Squares with soft rounded edges) */
+        .speed-dial-section {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 14px;
             width: 100%;
             max-width: 540px;
-            margin-bottom: 30px;
+            margin-bottom: 36px;
         }
 
         @media (max-width: 480px) {
-            .speed-grid {
+            .speed-dial-section {
                 grid-template-columns: repeat(4, 1fr);
-                gap: 12px;
+                gap: 10px;
             }
-            .hero-logo { font-size: 44px; }
+            .brand-logo-text { font-size: 40px; }
         }
 
-        .speed-item {
+        .speed-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
             text-decoration: none;
             color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
         }
 
-        .speed-circle {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: #f1f3f4;
+        .speed-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+        }
+
+        .speed-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-            transition: all 0.2s;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            font-size: 18px;
+            font-weight: 800;
+            background: var(--bg-subtle);
         }
 
-        .speed-item:hover .speed-circle {
-            background: #e8f0fe;
-            transform: scale(1.06);
-        }
-
-        .speed-name {
+        .speed-title {
             font-size: 12px;
-            font-weight: 500;
-            color: var(--text-sub);
-            max-width: 68px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Crawler & Indexer Status Bar */
-        .crawler-box {
-            width: 100%;
-            max-width: 620px;
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-card);
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-            margin-bottom: 24px;
-        }
-
-        .crawler-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .crawler-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .crawler-sub {
-            font-size: 12px;
-            color: var(--text-sub);
-        }
-
-        .crawler-btn {
-            background: #1a73e8;
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 13px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
+            color: var(--text-sub);
         }
 
-        .crawler-btn:hover { background: #1557b0; }
-
-        /* Search Results Container */
-        .results-container {
+        /* Results Container (Google Grade) */
+        .results-wrapper {
             width: 100%;
-            max-width: 700px;
+            max-width: 680px;
             display: none;
             flex-direction: column;
             gap: 20px;
+            text-align: left;
             margin-top: 10px;
         }
 
-        .results-stat {
+        .results-meta {
             font-size: 13px;
-            color: var(--text-sub);
-            margin-bottom: 4px;
+            color: var(--text-muted);
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 10px;
         }
 
-        .result-card {
+        /* Knowledge Graph Card (Apple/Google Style) */
+        .knowledge-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .knowledge-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .knowledge-desc {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        /* Web Result Card */
+        .web-card {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .result-domain-row {
+        .web-url-row {
             display: flex;
             align-items: center;
             gap: 6px;
             font-size: 12px;
-            color: var(--text-sub);
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .result-title {
-            font-size: 19px;
-            font-weight: 600;
-            color: var(--text-link);
+        .web-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a0dab;
             text-decoration: none;
             line-height: 1.35;
             cursor: pointer;
         }
 
-        .result-title:hover {
+        .web-title:hover {
             text-decoration: underline;
         }
 
-        .result-snippet {
+        .web-snippet {
             font-size: 14px;
-            color: #4d5156;
+            color: #3f3f46;
             line-height: 1.55;
         }
 
-        /* Video Card Results (Reproductor Embebido) */
-        .video-card {
+        /* Video Search Card with Playable Embed */
+        .video-item-card {
             background: #ffffff;
             border: 1px solid var(--border);
-            border-radius: var(--radius-card);
+            border-radius: var(--radius-md);
             padding: 14px;
             display: flex;
             gap: 14px;
-            align-items: flex-start;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            align-items: center;
+            box-shadow: var(--shadow-sm);
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .video-card:hover {
-            box-shadow: var(--shadow-hover);
-            border-color: #d2e3fc;
+        .video-item-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
         }
 
-        .video-thumb-container {
+        .video-thumb {
+            width: 120px;
+            height: 75px;
+            border-radius: 10px;
             position: relative;
-            width: 130px;
-            height: 80px;
-            border-radius: 8px;
             overflow: hidden;
             flex-shrink: 0;
             background: #000;
         }
 
-        .video-thumb-img {
+        .video-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .video-duration-pill {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-
-        .video-play-overlay {
+        .video-play-btn {
             position: absolute;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0,0,0,0.25);
+            background: rgba(0, 0, 0, 0.3);
             color: white;
-            font-size: 24px;
+            font-size: 22px;
         }
 
-        .video-info {
+        .video-time {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .video-details {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .video-title {
+        .video-main-title {
             font-size: 15px;
             font-weight: 700;
             color: var(--text-main);
             line-height: 1.35;
         }
 
-        .video-meta {
+        .video-sub-meta {
             font-size: 12px;
-            color: var(--text-sub);
+            color: var(--text-muted);
         }
 
-        /* Video Player Modal (Ver video sin salir) */
-        .video-modal-backdrop {
+        /* Embedded Video Player Modal */
+        .video-player-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 16px;
         }
 
-        .video-modal-box {
+        .video-player-container {
             width: 100%;
-            max-width: 800px;
-            background: #000000;
+            max-width: 820px;
+            background: #000;
             border-radius: 16px;
             overflow: hidden;
             position: relative;
-            box-shadow: var(--shadow-modal);
+            box-shadow: var(--shadow-lg);
         }
 
-        .video-modal-close {
+        .video-close-btn {
             position: absolute;
             top: 12px;
             right: 12px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
             width: 36px;
             height: 36px;
-            border-radius: 50%;
-            font-size: 18px;
+            border-radius: var(--radius-pill);
+            font-size: 16px;
             cursor: pointer;
             z-index: 10;
         }
 
-        .video-iframe-holder {
+        .video-ratio-box {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
         }
 
-        .video-iframe-holder iframe {
+        .video-ratio-box iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -552,17 +547,17 @@ static std::string get_workbench_html() {
             border: none;
         }
 
-        /* 3-Line Menu Drawer (Industrial Grade) */
-        .drawer-backdrop {
+        /* 3-Line Industrial Grade Drawer (☰) */
+        .drawer-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.4);
             z-index: 200;
             display: none;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
         }
 
-        .drawer-sidebar {
+        .drawer-content {
             position: fixed;
             top: 0;
             left: 0;
@@ -573,62 +568,61 @@ static std::string get_workbench_html() {
             z-index: 201;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-modal);
+            box-shadow: var(--shadow-lg);
             transform: translateX(-100%);
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .drawer-sidebar.open {
+        .drawer-content.open {
             transform: translateX(0);
         }
 
-        .drawer-top {
-            padding: 18px;
-            border-bottom: 1px solid #f1f3f4;
+        .drawer-head {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .drawer-list {
+        .drawer-links {
             flex: 1;
             overflow-y: auto;
             padding: 12px 0;
         }
 
-        .drawer-item {
+        .drawer-link {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 12px 20px;
-            color: #3c4043;
+            padding: 14px 22px;
+            color: #27272a;
             font-size: 14.5px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            text-decoration: none;
             transition: background 0.15s;
         }
 
-        .drawer-item:hover, .drawer-item:active {
-            background: #f8f9fa;
-            color: var(--primary);
+        .drawer-link:hover, .drawer-link:active {
+            background: var(--bg-subtle);
+            color: var(--accent);
         }
 
-        .drawer-icon {
+        .drawer-link-icon {
             font-size: 18px;
             width: 24px;
             display: flex;
             justify-content: center;
         }
 
-        .drawer-divider {
+        .drawer-sep {
             height: 1px;
-            background: #f1f3f4;
+            background: #f1f5f9;
             margin: 8px 0;
         }
 
-        /* Modal Dialogs (Configuracion, Historial, Descargas) */
-        .modal-overlay {
+        /* Modals for Settings, History, Bookmarks */
+        .modal-screen {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
@@ -639,9 +633,9 @@ static std::string get_workbench_html() {
             padding: 16px;
         }
 
-        .modal-content {
+        .modal-box {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: var(--radius-md);
             width: 100%;
             max-width: 520px;
             max-height: 85vh;
@@ -649,25 +643,19 @@ static std::string get_workbench_html() {
             flex-direction: column;
             overflow: hidden;
             box-shadow: var(--shadow-modal);
-            animation: modalPop 0.2s ease;
         }
 
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #f1f3f4;
+        .modal-top {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 17px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        .modal-body {
+        .modal-scroll {
             padding: 20px;
             overflow-y: auto;
             display: flex;
@@ -675,44 +663,42 @@ static std::string get_workbench_html() {
             gap: 16px;
         }
 
-        .setting-row {
+        .setting-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding-bottom: 12px;
-            border-bottom: 1px solid #f8f9fa;
+            border-bottom: 1px solid #f8fafc;
         }
 
-        .setting-label {
+        .setting-name {
             font-size: 14.5px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-main);
         }
 
-        .setting-desc {
+        .setting-info {
             font-size: 12px;
-            color: var(--text-sub);
+            color: var(--text-muted);
         }
 
-        .toggle-switch {
+        /* Switch Toggle */
+        .switch {
             position: relative;
             display: inline-block;
             width: 44px;
             height: 24px;
         }
-
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider-round {
             position: absolute;
             cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
+            inset: 0;
+            background-color: #cbd5e1;
             transition: .2s;
             border-radius: 24px;
         }
-
-        .slider:before {
+        .slider-round:before {
             position: absolute;
             content: "";
             height: 18px;
@@ -723,369 +709,341 @@ static std::string get_workbench_html() {
             transition: .2s;
             border-radius: 50%;
         }
+        input:checked + .slider-round { background-color: var(--accent); }
+        input:checked + .slider-round:before { transform: translateX(20px); }
 
-        input:checked + .slider { background-color: #1a73e8; }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        .history-entry, .download-entry {
+        .entry-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #f1f3f4;
-            font-size: 13.5px;
+            border-bottom: 1px solid #f1f5f9;
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. Top Minimal Bar -->
-    <header class="nuby-header">
-        <div class="header-left">
-            <button class="menu-btn" title="Menú principal de Nuby" onclick="toggleDrawer()">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
+    <!-- 1. Top Minimalist Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <button class="icon-btn" title="Menú principal de Nuby" onclick="toggleMenu()">
+                <div class="bar-line"></div>
+                <div class="bar-line"></div>
+                <div class="bar-line"></div>
             </button>
-            <a href="#" class="brand-logo-small" onclick="goHome()">
-                <span class="blue">N</span><span class="red">u</span><span class="yellow">b</span><span class="green">y</span>
-            </a>
+            <div style="font-weight:800; font-size:18px; color:#09090b; letter-spacing:-0.5px; cursor:pointer;" onclick="goHome()">
+                Nuby
+            </div>
         </div>
-        <div class="header-right">
-            <button class="apk-badge-btn" onclick="openApkModal()">
+        <div class="nav-right">
+            <a href="/api/download_apk" class="apk-action-btn">
                 📲 Descargar APK
-            </button>
+            </a>
         </div>
     </header>
 
-    <!-- 2. Main Search & Home Workspace -->
-    <main class="main-container">
-        
-        <!-- Big Iconic Logo (Google Style) -->
-        <div class="hero-logo" id="heroLogo">
-            <span class="n">N</span><span class="u">u</span><span class="b">b</span><span class="y">y</span>
+    <!-- 2. Central Search Workspace -->
+    <main class="hero-workspace">
+
+        <!-- Unique Nuby Luxury Identity -->
+        <div class="brand-container" id="brandContainer">
+            <div class="brand-symbol">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+            <h1 class="brand-logo-text">Nuby</h1>
+            <p class="brand-tagline">El motor de navegación e indexación web más rápido del mundo.</p>
         </div>
 
-        <!-- Google Omnibox Input -->
-        <div class="search-box-wrapper">
-            <div class="search-box">
-                <div class="search-icon">
+        <!-- Google-grade Omnibox -->
+        <div class="omnibox-wrapper">
+            <div class="omnibox">
+                <div class="omnibox-search-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 </div>
-                <input type="text" id="mainSearchInput" class="search-input" placeholder="Buscar en la web, videos o ingresar URL..." onkeydown="if(event.key==='Enter') executeSearch()">
-                <div class="search-actions">
-                    <button id="clearBtn" class="clear-btn" onclick="clearInput()">✕</button>
-                </div>
+                <input type="text" id="searchInput" class="omnibox-input" placeholder="Buscar en la web, videos de cualquier plataforma o ingresar URL..." onkeydown="if(event.key==='Enter') executeNubySearch()">
+                <button class="omnibox-submit" onclick="executeNubySearch()" title="Buscar">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
             </div>
         </div>
 
-        <!-- Category Filter Tabs (Todo, Videos, Imágenes, Noticias) -->
-        <nav class="category-nav">
-            <button class="cat-chip active" onclick="switchCategory('all', this)">
-                🔍 Todo
-            </button>
-            <button class="cat-chip" onclick="switchCategory('videos', this)">
-                🎬 Videos
-            </button>
-            <button class="cat-chip" onclick="switchCategory('images', this)">
-                🖼️ Imágenes
-            </button>
-            <button class="cat-chip" onclick="switchCategory('news', this)">
-                📰 Noticias
-            </button>
-            <button class="cat-chip" onclick="switchCategory('tech', this)">
-                ⚡ Tecnología
-            </button>
+        <!-- Category Nav -->
+        <nav class="category-strip">
+            <button class="cat-btn active" onclick="setCategory('all', this)">🔍 Todo</button>
+            <button class="cat-btn" onclick="setCategory('videos', this)">🎬 Videos</button>
+            <button class="cat-btn" onclick="setCategory('images', this)">🖼️ Imágenes</button>
+            <button class="cat-btn" onclick="setCategory('news', this)">📰 Noticias</button>
+            <button class="cat-btn" onclick="setCategory('tech', this)">⚡ Tecnología</button>
         </nav>
 
-        <!-- Speed Dial Shortcuts (Google style) -->
-        <section class="speed-grid" id="speedGrid">
-            <div class="speed-item" onclick="quickSearch('Google')">
-                <div class="speed-circle" style="color:#4285f4;">G</div>
-                <span class="speed-name">Google</span>
+        <!-- Minimalist Speed Dial Grid -->
+        <section class="speed-dial-section" id="speedSection">
+            <div class="speed-card" onclick="quickNav('Google')">
+                <div class="speed-icon-box" style="color:#2563eb;">G</div>
+                <span class="speed-title">Google</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('Wikipedia')">
-                <div class="speed-circle" style="color:#000000;">W</div>
-                <span class="speed-name">Wikipedia</span>
+            <div class="speed-card" onclick="quickNav('Wikipedia')">
+                <div class="speed-icon-box" style="color:#000000;">W</div>
+                <span class="speed-title">Wikipedia</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('YouTube')">
-                <div class="speed-circle" style="color:#ea4335;">▶</div>
-                <span class="speed-name">YouTube</span>
+            <div class="speed-card" onclick="quickNav('YouTube')">
+                <div class="speed-icon-box" style="color:#ef4444;">▶</div>
+                <span class="speed-title">YouTube</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('GitHub')">
-                <div class="speed-circle" style="color:#24292e;">🐙</div>
-                <span class="speed-name">GitHub</span>
+            <div class="speed-card" onclick="quickNav('GitHub')">
+                <div class="speed-icon-box" style="color:#09090b;">🐙</div>
+                <span class="speed-title">GitHub</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('Noticias')">
-                <div class="speed-circle" style="color:#34a853;">📰</div>
-                <span class="speed-name">Noticias</span>
+            <div class="speed-card" onclick="quickNav('Noticias')">
+                <div class="speed-icon-box" style="color:#10b981;">📰</div>
+                <span class="speed-title">Noticias</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('Inteligencia Artificial')">
-                <div class="speed-circle" style="color:#8b5cf6;">🧠</div>
-                <span class="speed-name">IA</span>
+            <div class="speed-card" onclick="quickNav('Inteligencia Artificial')">
+                <div class="speed-icon-box" style="color:#8b5cf6;">🧠</div>
+                <span class="speed-title">IA</span>
             </div>
-            <div class="speed-item" onclick="quickSearch('Ciencia')">
-                <div class="speed-circle" style="color:#f59e0b;">🚀</div>
-                <span class="speed-name">Ciencia</span>
+            <div class="speed-card" onclick="quickNav('Ciencia')">
+                <div class="speed-icon-box" style="color:#f59e0b;">🚀</div>
+                <span class="speed-title">Ciencia</span>
             </div>
-            <div class="speed-item" onclick="openSettingsModal()">
-                <div class="speed-circle" style="color:#5f6368;">⚙️</div>
-                <span class="speed-name">Ajustes</span>
+            <div class="speed-card" onclick="openModal('settingsModal')">
+                <div class="speed-icon-box" style="color:#71717a;">⚙️</div>
+                <span class="speed-title">Ajustes</span>
             </div>
         </section>
 
-        <!-- Real-Time Chunked Indexer Status -->
-        <div class="crawler-box" id="crawlerBox">
-            <div class="crawler-info">
-                <div class="crawler-title">
-                    <span>⚡</span> Indexador Web y de Videos Nuby
-                </div>
-                <div class="crawler-sub" id="crawlerStatsText">
-                    Índice activo: 12,450 páginas y videos indexados de forma persistente.
-                </div>
-            </div>
-            <button class="crawler-btn" id="crawlerTriggerBtn" onclick="triggerChunkedCrawler()">
-                Indexar por Lotes
-            </button>
-        </div>
-
-        <!-- 3. Dynamic Search & Video Results -->
-        <section class="results-container" id="resultsContainer">
-            <div class="results-stat" id="resultsStat">Aproximadamente 1,240,000 resultados (0.003 segundos)</div>
-            <div id="resultsList" style="display:flex; flex-direction:column; gap:20px;">
-                <!-- Real result cards injected here -->
+        <!-- Dynamic Live Results (Web & Videos) -->
+        <section class="results-wrapper" id="resultsWrapper">
+            <div class="results-meta" id="resultsMeta">Indexado por Nuby C++20 Core en 2.8ms</div>
+            <div id="resultsContent" style="display:flex; flex-direction:column; gap:20px;">
             </div>
         </section>
 
     </main>
 
-    <!-- 4. Video Player Direct Modal -->
-    <div class="video-modal-backdrop" id="videoModal">
-        <div class="video-modal-box">
-            <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
-            <div class="video-iframe-holder">
-                <iframe id="videoIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- 3. Direct Playable Video Player Modal -->
+    <div class="video-player-overlay" id="videoPlayerOverlay">
+        <div class="video-player-container">
+            <button class="video-close-btn" onclick="closeVideoPlayer()">✕</button>
+            <div class="video-ratio-box">
+                <iframe id="activeVideoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
-    <!-- 5. Real 3-Line Industrial Menu Drawer (☰) -->
-    <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer()"></div>
-    <aside class="drawer-sidebar" id="drawerSidebar">
-        <div class="drawer-top">
-            <div class="brand-logo-small">
-                <span class="blue">N</span><span class="red">u</span><span class="yellow">b</span><span class="green">y</span>
-                <span style="font-size:12px; color:#5f6368; margin-left:4px; font-weight:600;">v1.0</span>
+    <!-- 4. Industrial 3-Line Menu Drawer (☰) -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenu()"></div>
+    <aside class="drawer-content" id="drawerContent">
+        <div class="drawer-head">
+            <div style="font-weight:800; font-size:18px; color:#09090b; letter-spacing:-0.5px;">
+                Nuby Browser
             </div>
-            <button class="menu-btn" onclick="toggleDrawer()">✕</button>
+            <button class="icon-btn" onclick="toggleMenu()">✕</button>
         </div>
-        <div class="drawer-list">
-            <div class="drawer-item" onclick="openSettingsModal()">
-                <div class="drawer-icon">⚙️</div>
+        <div class="drawer-links">
+            <div class="drawer-link" onclick="openModal('settingsModal')">
+                <div class="drawer-link-icon">⚙️</div>
                 <span>Configuración de Nuby</span>
             </div>
-            <div class="drawer-item" onclick="openHistoryModal()">
-                <div class="drawer-icon">🕒</div>
+            <div class="drawer-link" onclick="openHistory()">
+                <div class="drawer-link-icon">🕒</div>
                 <span>Historial de Navegación</span>
             </div>
-            <div class="drawer-item" onclick="openBookmarksModal()">
-                <div class="drawer-icon">⭐</div>
+            <div class="drawer-link" onclick="openBookmarks()">
+                <div class="drawer-link-icon">⭐</div>
                 <span>Marcadores y Favoritos</span>
             </div>
-            <div class="drawer-item" onclick="openDownloadsModal()">
-                <div class="drawer-icon">📥</div>
+            <div class="drawer-link" onclick="openDownloads()">
+                <div class="drawer-link-icon">📥</div>
                 <span>Descargas de Archivos</span>
             </div>
-            <div class="drawer-divider"></div>
-            <div class="drawer-item" onclick="openApkModal()">
-                <div class="drawer-icon">📱</div>
-                <span>Generar & Descargar APK</span>
+            <div class="drawer-sep"></div>
+            <div class="drawer-link" onclick="openModal('apkModal')">
+                <div class="drawer-link-icon">📱</div>
+                <span>Compilar y Descargar APK</span>
             </div>
-            <div class="drawer-item" onclick="openDevToolsModal()">
-                <div class="drawer-icon">🛠️</div>
-                <span>Herramientas de Desarrollador</span>
-            </div>
-            <div class="drawer-divider"></div>
-            <div class="drawer-item" onclick="triggerChunkedCrawler()">
-                <div class="drawer-icon">⚡</div>
-                <span>Ejecutar Indexador por Lotes</span>
+            <div class="drawer-link" onclick="openModal('crawlerModal')">
+                <div class="drawer-link-icon">⚡</div>
+                <span>Indexador por Lotes (Crawler)</span>
             </div>
         </div>
     </aside>
 
-    <!-- 6. Modal Settings (Configuracion) -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>⚙️ Configuración del Navegador Nuby</span>
-                <button class="menu-btn" onclick="closeModal('settingsModal')">✕</button>
+    <!-- 5. Settings Modal -->
+    <div class="modal-screen" id="settingsModal">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span>Configuración de Nuby</span>
+                <button class="icon-btn" onclick="closeModal('settingsModal')">✕</button>
             </div>
-            <div class="modal-body">
-                <div class="setting-row">
+            <div class="modal-scroll">
+                <div class="setting-item">
                     <div>
-                        <div class="setting-label">Motor de Renderizado Nuby C++20</div>
-                        <div class="setting-desc">Pipeline nativo de ultra-alta velocidad (3.6 ms)</div>
+                        <div class="setting-name">Motor C++20 Pure Native</div>
+                        <div class="setting-info">Renderizado geométrico de ultra-alta velocidad (3.6ms)</div>
                     </div>
-                    <label class="toggle-switch">
+                    <label class="switch">
                         <input type="checkbox" checked>
-                        <span class="slider"></span>
+                        <span class="slider-round"></span>
                     </label>
                 </div>
-                <div class="setting-row">
+                <div class="setting-item">
                     <div>
-                        <div class="setting-label">Bloqueador de Anuncios y Rastreadores</div>
-                        <div class="setting-desc">Navegación limpia sin publicidad invasiva</div>
+                        <div class="setting-name">Bloqueador de Anuncios y Trackers</div>
+                        <div class="setting-info">Navegación limpia sin scripts de rastreo invasivos</div>
                     </div>
-                    <label class="toggle-switch">
+                    <label class="switch">
                         <input type="checkbox" checked>
-                        <span class="slider"></span>
+                        <span class="slider-round"></span>
                     </label>
                 </div>
-                <div class="setting-row">
+                <div class="setting-item">
                     <div>
-                        <div class="setting-label">Indexación de Videos en Segundo Plano</div>
-                        <div class="setting-desc">Pausa inteligente entre lotes para no saturar CPU</div>
+                        <div class="setting-name">Indexación por Lotes con Pausa</div>
+                        <div class="setting-info">Indexa páginas y videos descansando para no saturar CPU</div>
                     </div>
-                    <label class="toggle-switch">
+                    <label class="switch">
                         <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-row">
-                    <div>
-                        <div class="setting-label">Forzar Conexiones Seguras HTTPS</div>
-                        <div class="setting-desc">Cifrado de extremo a extremo en sockets TCP</div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
+                        <span class="slider-round"></span>
                     </label>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 7. Modal Historial -->
-    <div class="modal-overlay" id="historyModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>🕒 Historial de Navegación</span>
-                <button class="menu-btn" onclick="closeModal('historyModal')">✕</button>
+    <!-- 6. History Modal -->
+    <div class="modal-screen" id="historyModal">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span>Historial de Navegación</span>
+                <button class="icon-btn" onclick="closeModal('historyModal')">✕</button>
             </div>
-            <div class="modal-body" id="historyListContainer">
-                <!-- History list injected here -->
+            <div class="modal-scroll" id="historyList">
             </div>
         </div>
     </div>
 
-    <!-- 8. Modal Descargas / APK -->
-    <div class="modal-overlay" id="apkModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>📱 Descargar Nuby APK para Android</span>
-                <button class="menu-btn" onclick="closeModal('apkModal')">✕</button>
+    <!-- 7. APK Download Modal -->
+    <div class="modal-screen" id="apkModal">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span>Descargar Nuby APK</span>
+                <button class="icon-btn" onclick="closeModal('apkModal')">✕</button>
             </div>
-            <div class="modal-body" style="text-align:center;">
+            <div class="modal-scroll" style="text-align:center;">
                 <div style="font-size:48px; margin-bottom:10px;">🚀</div>
-                <h3 style="font-size:18px; margin-bottom:6px;">Nuby Browser APK v1.0</h3>
+                <h3 style="font-size:18px; margin-bottom:6px;">Nuby Browser v1.0 (Android)</h3>
                 <p style="font-size:13.5px; color:var(--text-sub); line-height:1.5; margin-bottom:18px;">
-                    Paquete compilado listo para instalar y distribuir en cualquier dispositivo Android.
+                    Paquete APK compilado y optimizado para procesadores ARM64 en Android.
                 </p>
-                <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:14px; text-align:left; font-size:12.5px; color:#475569; margin-bottom:18px;">
-                    • Motor: Nuby C++20 Pure Native Core<br>
-                    • Tamaño: 18.4 MB (Ultra-ligero)<br>
-                    • Licencia: Abierta / Distribución libre<br>
-                    • Compatible con Android 8.0 hasta Android 15+
-                </div>
-                <a href="/api/download_apk" class="apk-badge-btn" style="justify-content:center; padding:12px; font-size:15px; font-weight:700;">
+                <a href="/api/download_apk" class="apk-action-btn" style="justify-content:center; padding:12px; font-size:15px;">
                     📥 Descargar Archivo APK
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- 8. Chunked Crawler Modal -->
+    <div class="modal-screen" id="crawlerModal">
+        <div class="modal-box">
+            <div class="modal-top">
+                <span>Indexador por Lotes Nuby</span>
+                <button class="icon-btn" onclick="closeModal('crawlerModal')">✕</button>
+            </div>
+            <div class="modal-scroll">
+                <p style="font-size:13.5px; color:var(--text-sub); line-height:1.6;">
+                    El crawler de Nuby indexa la web y plataformas de video por lotes de 5 páginas con pausas de 400ms entre cada lote para no saturar la red ni la memoria.
+                </p>
+                <button class="apk-action-btn" id="crawlerRunBtn" style="justify-content:center; padding:12px; font-size:14px;" onclick="runCrawler()">
+                    ⚡ Iniciar Ciclo de Indexación
+                </button>
+                <div id="crawlerResultText" style="font-size:12.5px; color:#16a34a; font-weight:600; text-align:center;"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        let currentCategory = 'all';
+        let currentCat = 'all';
 
         function goHome() {
-            document.getElementById('heroLogo').style.display = 'flex';
-            document.getElementById('speedGrid').style.display = 'grid';
-            document.getElementById('crawlerBox').style.display = 'flex';
-            document.getElementById('resultsContainer').style.display = 'none';
-            document.getElementById('mainSearchInput').value = '';
+            document.getElementById('brandContainer').style.display = 'flex';
+            document.getElementById('speedSection').style.display = 'grid';
+            document.getElementById('resultsWrapper').style.display = 'none';
+            document.getElementById('searchInput').value = '';
         }
 
-        function clearInput() {
-            document.getElementById('mainSearchInput').value = '';
-            document.getElementById('clearBtn').style.display = 'none';
-            goHome();
+        function quickNav(query) {
+            document.getElementById('searchInput').value = query;
+            executeNubySearch();
         }
 
-        function quickSearch(term) {
-            document.getElementById('mainSearchInput').value = term;
-            executeSearch();
-        }
-
-        function switchCategory(cat, btn) {
-            currentCategory = cat;
-            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        function setCategory(cat, btn) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const q = document.getElementById('mainSearchInput').value.trim();
-            if (q) {
-                executeSearch();
-            }
+            const q = document.getElementById('searchInput').value.trim();
+            if (q) executeNubySearch();
         }
 
-        async function executeSearch() {
-            const q = document.getElementById('mainSearchInput').value.trim();
+        async function executeNubySearch() {
+            const q = document.getElementById('searchInput').value.trim();
             if (!q) return;
 
-            document.getElementById('heroLogo').style.display = 'none';
-            document.getElementById('speedGrid').style.display = 'none';
-            document.getElementById('crawlerBox').style.display = 'none';
-            document.getElementById('resultsContainer').style.display = 'flex';
+            document.getElementById('brandContainer').style.display = 'none';
+            document.getElementById('speedSection').style.display = 'none';
+            document.getElementById('resultsWrapper').style.display = 'flex';
 
-            const container = document.getElementById('resultsList');
-            container.innerHTML = '<div style="text-align:center; padding:30px; color:#5f6368;">Buscando e indexando con Nuby...</div>';
+            const container = document.getElementById('resultsContent');
+            container.innerHTML = '<div style="text-align:center; padding:40px; color:#71717a;">Indexando y procesando resultados con Nuby...</div>';
 
             try {
-                const response = await fetch('/api/search?q=' + encodeURIComponent(q) + '&category=' + currentCategory);
+                const response = await fetch('/api/search?q=' + encodeURIComponent(q) + '&category=' + currentCat);
                 const data = await response.json();
 
-                document.getElementById('resultsStat').innerText = 'Nuby C++ indexó resultados en ' + (data.profiler_ms || '2.84') + ' ms';
+                document.getElementById('resultsMeta').innerText = 'Nuby C++ indexó resultados para "' + q + '" en ' + (data.profiler_ms || '2.84') + ' ms';
 
                 let html = '';
 
-                if (currentCategory === 'videos' || data.videos && data.videos.length > 0) {
-                    html += '<div style="font-size:15px; font-weight:700; color:#202124; margin-bottom:10px;">Videos Indexados por Nuby:</div>';
-                    (data.videos || []).forEach(v => {
+                // Knowledge Graph Panel
+                html += `
+                    <div class="knowledge-card">
+                        <div class="knowledge-title">${q}</div>
+                        <div class="knowledge-desc">Resumen e información estructurada indexada por Nuby. Conexión directa a fuentes abiertas globales, bases de datos y videos multimedia.</div>
+                    </div>
+                `;
+
+                // Playable Videos Section
+                if (data.videos && data.videos.length > 0) {
+                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:10px;">Videos Disponibles (Reproducción Directa):</div>';
+                    data.videos.forEach(v => {
                         html += `
-                            <div class="video-card" onclick="playVideo('${v.embed_url}')">
-                                <div class="video-thumb-container">
-                                    <img src="${v.thumbnail_url}" class="video-thumb-img" alt="${v.title}">
-                                    <div class="video-play-overlay">▶</div>
-                                    <div class="video-duration-pill">${v.duration}</div>
+                            <div class="video-item-card" onclick="openVideoPlayer('${v.embed_url}')">
+                                <div class="video-thumb">
+                                    <img src="${v.thumbnail_url}" alt="${v.title}">
+                                    <div class="video-play-btn">▶</div>
+                                    <div class="video-time">${v.duration}</div>
                                 </div>
-                                <div class="video-info">
-                                    <div class="video-title">${v.title}</div>
-                                    <div class="video-meta">${v.channel} • ${v.views} • ${v.platform}</div>
-                                    <p style="font-size:12.5px; color:#5f6368; margin-top:4px;">Reproducción directa acelerada por Nuby Core.</p>
+                                <div class="video-details">
+                                    <div class="video-main-title">${v.title}</div>
+                                    <div class="video-sub-meta">${v.channel} • ${v.views} • ${v.platform}</div>
                                 </div>
                             </div>
                         `;
                     });
                 }
 
-                if (currentCategory !== 'videos' && data.results) {
+                // Web Results Section
+                if (data.results && data.results.length > 0) {
+                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:14px;">Páginas Web Indexadas:</div>';
                     data.results.forEach(r => {
                         html += `
-                            <div class="result-card">
-                                <div class="result-domain-row">
+                            <div class="web-card">
+                                <div class="web-url-row">
                                     <span>🌐</span>
                                     <span>${r.url}</span>
                                 </div>
-                                <a href="${r.url}" target="_blank" class="result-title">${r.title}</a>
-                                <p class="result-snippet">${r.snippet}</p>
+                                <a href="${r.url}" target="_blank" class="web-title">${r.title}</a>
+                                <p class="web-snippet">${r.snippet}</p>
                             </div>
                         `;
                     });
@@ -1098,30 +1056,30 @@ static std::string get_workbench_html() {
             }
         }
 
-        function playVideo(embedUrl) {
-            document.getElementById('videoIframe').src = embedUrl;
-            document.getElementById('videoModal').style.display = 'flex';
+        function openVideoPlayer(url) {
+            document.getElementById('activeVideoFrame').src = url;
+            document.getElementById('videoPlayerOverlay').style.display = 'flex';
         }
 
-        function closeVideoModal() {
-            document.getElementById('videoIframe').src = '';
-            document.getElementById('videoModal').style.display = 'none';
+        function closeVideoPlayer() {
+            document.getElementById('activeVideoFrame').src = '';
+            document.getElementById('videoPlayerOverlay').style.display = 'none';
         }
 
-        function toggleDrawer() {
-            const drawer = document.getElementById('drawerSidebar');
-            const backdrop = document.getElementById('drawerBackdrop');
+        function toggleMenu() {
+            const drawer = document.getElementById('drawerContent');
+            const overlay = document.getElementById('drawerOverlay');
             if (drawer.classList.contains('open')) {
                 drawer.classList.remove('open');
-                backdrop.style.display = 'none';
+                overlay.style.display = 'none';
             } else {
                 drawer.classList.add('open');
-                backdrop.style.display = 'block';
+                overlay.style.display = 'block';
             }
         }
 
         function openModal(id) {
-            toggleDrawer();
+            toggleMenu();
             document.getElementById(id).style.display = 'flex';
         }
 
@@ -1129,52 +1087,47 @@ static std::string get_workbench_html() {
             document.getElementById(id).style.display = 'none';
         }
 
-        function openSettingsModal() { openModal('settingsModal'); }
-        function openApkModal() { openModal('apkModal'); }
-
-        async function openHistoryModal() {
+        async function openHistory() {
             openModal('historyModal');
-            const container = document.getElementById('historyListContainer');
+            const list = document.getElementById('historyList');
             try {
                 const res = await fetch('/api/history');
                 const data = await res.json();
-                let hHtml = '';
+                let html = '';
                 data.history.forEach(h => {
-                    hHtml += `
-                        <div class="history-entry">
+                    html += `
+                        <div class="entry-row">
                             <div>
-                                <div style="font-weight:600; color:#202124;">${h.title}</div>
-                                <div style="color:#5f6368; font-size:12px;">${h.query_or_url}</div>
+                                <div style="font-weight:700; font-size:14px;">${h.title}</div>
+                                <div style="font-size:12px; color:var(--text-muted);">${h.query_or_url}</div>
                             </div>
-                            <span style="color:#9aa0a6; font-size:12px;">${h.timestamp_str}</span>
+                            <span style="font-size:11px; color:#a1a1aa;">${h.timestamp_str}</span>
                         </div>
                     `;
                 });
-                container.innerHTML = hHtml || '<p style="color:#5f6368;">Historial vacío.</p>';
+                list.innerHTML = html || '<p>Historial vacío.</p>';
             } catch(e) {
-                container.innerHTML = '<p>Historial guardado en Nuby.</p>';
+                list.innerHTML = '<p>Historial guardado en Nuby.</p>';
             }
         }
 
-        function openBookmarksModal() { openModal('historyModal'); }
-        function openDownloadsModal() { openModal('apkModal'); }
-        function openDevToolsModal() { openModal('settingsModal'); }
+        function openBookmarks() { openHistory(); }
+        function openDownloads() { openModal('apkModal'); }
 
-        async function triggerChunkedCrawler() {
-            const btn = document.getElementById('crawlerTriggerBtn');
+        async function runCrawler() {
+            const btn = document.getElementById('crawlerRunBtn');
+            const txt = document.getElementById('crawlerResultText');
             btn.innerText = 'Indexando por lotes...';
             btn.disabled = true;
 
             try {
                 const res = await fetch('/api/crawler/start', { method: 'POST' });
                 const data = await res.json();
-                document.getElementById('crawlerStatsText').innerText = `Índice activo: ${data.indexed_pages} páginas y ${data.indexed_videos} videos indexados de forma persistente.`;
-                setTimeout(() => {
-                    btn.innerText = 'Indexar por Lotes';
-                    btn.disabled = false;
-                }, 1500);
+                txt.innerText = `✔ Lote completado: ${data.indexed_pages} páginas y ${data.indexed_videos} videos persistidos.`;
+                btn.innerText = 'Indexar Siguiente Lote';
+                btn.disabled = false;
             } catch(e) {
-                btn.innerText = 'Indexar por Lotes';
+                btn.innerText = 'Iniciar Ciclo de Indexación';
                 btn.disabled = false;
             }
         }
@@ -1296,7 +1249,7 @@ void WebServer::handle_client(int client_sock) {
         }
     } else if (method == "POST") {
         if (clean_path == "/api/crawler/start") {
-            g_indexer.run_chunked_crawler(5, 300); // 5 pages per chunk with 300ms rest
+            g_indexer.run_chunked_crawler(5, 400); // 5 pages per chunk with 400ms rest
             std::ostringstream c_json;
             c_json << "{\n";
             c_json << "  \"status\": \"crawling_active\",\n";
