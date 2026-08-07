@@ -25,7 +25,7 @@ static std::string get_workbench_html() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nuby</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
@@ -1154,8 +1154,8 @@ static std::string get_workbench_html() {
             list.innerHTML = `
                 <div class="list-entry-row">
                     <div>
-                        <div style="font-weight:700; font-size:14px;">nuby-architecture-spec.pdf</div>
-                        <div style="font-size:12px; color:var(--text-muted);">2.4 MB • Completado</div>
+                        <div style="font-weight:700; font-size:14px;">documentacion_nuby_v1.0.pdf</div>
+                        <div style="font-size:12px; color:var(--text-muted);">2.4 MB • Descarga completada</div>
                     </div>
                     <span style="font-size:11px; color:#16a34a; font-weight:700;">Descargado</span>
                 </div>
@@ -1175,7 +1175,7 @@ static std::string get_workbench_html() {
                 btn.innerText = 'Indexar Siguiente Lote';
                 btn.disabled = false;
             } catch(e) {
-                btn.innerText = 'Iniciar Ciclo de Indexación';
+                btn.innerText = 'Iniciar Ciclo de Indexación por Lotes';
                 btn.disabled = false;
             }
         }
