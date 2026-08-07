@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
     nuby::NubyBrowserEngine engine(1000, 800);
     std::string sample_html = R"(
         <div style="background-color: #0b0f19; padding: 24px; color: #ffffff;">
-            <h1 style="color: #38bdf8; font-size: 28px;">Nuby Browser Engine Core</h1>
+            <h1 style="color: #38bdf8; font-size: 28px;">Nuby Core</h1>
             <p style="color: #94a3b8; font-size: 14px;">Next-Gen C++20 engine executing zero-copy pipeline.</p>
         </div>
     )";

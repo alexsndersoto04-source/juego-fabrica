@@ -1,7 +1,7 @@
 # Nuby C++20 Browser Engine — Technical Specification
 
 ## 1. Visión y Nombre
-El motor ha sido bautizado oficialmente como **Nuby** (**NubyCore Engine**). Está diseñado como un motor de navegación y renderizado web moderno en **C++20 puro**, enfocado en eliminar los cuellos de botella de memoria, complejidad histórica y deuda técnica de los motores tradicionales (Chromium/WebKit).
+El motor ha sido bautizado oficialmente como **Nuby** (**Nuby**). Está diseñado como un motor de navegación y renderizado web moderno en **C++20 puro**, enfocado en eliminar los cuellos de botella de memoria, complejidad histórica y deuda técnica de los motores tradicionales (Chromium/WebKit).
 
 ---
 
