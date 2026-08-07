@@ -23,11 +23,13 @@ fi
 
 echo "Compilador detectado: $CXX"
 echo "Compilando Nuby en C++20 con optimización -O3..."
+make clean
 make all
 
+PORT=8085
 echo -e "\n\033[1;32m[✔] ¡Compilación 100% exitosa!\033[0m"
-echo -e "Arrancando Nuby en el puerto 8080...\n"
+echo -e "Arrancando Nuby en el puerto $PORT...\n"
 echo -e "Abre tu navegador (en tu teléfono) y entra a:"
-echo -e "👉 \033[1;34mhttp://localhost:8080\033[0m o \033[1;34mhttp://127.0.0.1:8080\033[0m\n"
+echo -e "👉 \033[1;34mhttp://localhost:$PORT\033[0m o \033[1;34mhttp://127.0.0.1:$PORT\033[0m\n"
 
-./bin/nuby_engine --port 8080
+./bin/nuby_engine --port $PORT
