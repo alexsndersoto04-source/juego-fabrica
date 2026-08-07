@@ -1060,14 +1060,29 @@ void WebServer::handle_client(int client_sock) {
 
     std::ostringstream response;
 
-    if (method == "GET" && (path == "/" || path == "/index.html" || path == "/core/workbench.html")) {
+    std::string clean_path = path;
+    size_t q_mark = clean_path.find('?');
+    if (q_mark != std::string::npos) {
+        clean_path = clean_path.substr(0, q_mark);
+    }
+
+    if (method == "GET" || method == "HEAD") {
         std::string body = get_workbench_html();
         response << "HTTP/1.1 200 OK\r\n";
         response << "Content-Type: text/html; charset=utf-8\r\n";
+        response << "Access-Control-Allow-Origin: *\r\n";
         response << "Content-Length: " << body.length() << "\r\n";
         response << "Connection: close\r\n\r\n";
-        response << body;
-    } else if (method == "POST" && path == "/api/render") {
+        if (method == "GET") {
+            response << body;
+        }
+    } else if (method == "OPTIONS") {
+        response << "HTTP/1.1 204 No Content\r\n";
+        response << "Access-Control-Allow-Origin: *\r\n";
+        response << "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n";
+        response << "Access-Control-Allow-Headers: Content-Type\r\n";
+        response << "Connection: close\r\n\r\n";
+    } else if (method == "POST" && (clean_path == "/api/render" || clean_path == "/render")) {
         // Extract JSON body
         size_t body_pos = request.find("\r\n\r\n");
         std::string req_body = (body_pos != std::string::npos) ? request.substr(body_pos + 4) : "";
