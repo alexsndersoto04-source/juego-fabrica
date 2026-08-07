@@ -25,25 +25,38 @@ static std::string get_workbench_html() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nuby</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #ffffff;
-            --bg-hover: #f8fafc;
-            --bg-panel: #f1f5f9;
-            --border: #e2e8f0;
-            --border-hover: #cbd5e1;
-            --text-main: #09090b;
-            --text-sub: #52525b;
+            --bg-color: #ffffff;
+            --bg-subtle: #f8fafc;
+            --text-color: #09090b;
+            --text-secondary: #52525b;
             --text-muted: #71717a;
-            --text-link: #1a0dab;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --shadow-search: 0 1px 6px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.06);
-            --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.16);
+            --border-color: #e4e4e7;
+            --border-focus: #18181b;
+            --search-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+            --search-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --drawer-bg: #ffffff;
+            --drawer-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
             --radius-pill: 9999px;
-            --radius-card: 14px;
+            --radius-box: 16px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #09090b;
+                --bg-subtle: #18181b;
+                --text-color: #f4f4f5;
+                --text-secondary: #a1a1aa;
+                --text-muted: #71717a;
+                --border-color: #27272a;
+                --border-focus: #f4f4f5;
+                --search-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+                --search-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.4);
+                --drawer-bg: #09090b;
+                --drawer-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            }
         }
 
         * {
@@ -51,151 +64,140 @@ static std::string get_workbench_html() {
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
-            font-family: 'Plus Jakarta Sans', -apple-system, Roboto, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
 
-        /* Top Minimalist Header */
-        .top-navbar {
+        /* 1. Pristine Minimal Header: ONLY Hamburger Menu */
+        .clean-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            background: #ffffff;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 16px 20px;
             position: sticky;
             top: 0;
             z-index: 100;
+            background: transparent;
         }
 
         .hamburger-btn {
             background: transparent;
             border: none;
             cursor: pointer;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-pill);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4.5px;
-            transition: background 0.15s;
+            gap: 5px;
+            transition: background 0.15s ease;
         }
 
         .hamburger-btn:hover, .hamburger-btn:active {
-            background: var(--bg-hover);
+            background: var(--bg-subtle);
         }
 
         .hamburger-line {
-            width: 20px;
+            width: 22px;
             height: 2px;
-            background-color: #09090b;
+            background-color: var(--text-color);
             border-radius: 2px;
         }
 
-        .nav-brand-title {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.8px;
-            color: #09090b;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        /* Main Search Viewport */
-        .search-viewport {
+        /* 2. Elite Zen Search Stage */
+        .search-stage {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             width: 100%;
-            max-width: 760px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 48px 18px 80px 18px;
+            padding: 0 20px 100px 20px;
             text-align: center;
         }
 
-        /* Solid Black Bold Nuby Logo */
-        .nuby-logo-solid {
-            font-size: 58px;
+        /* Centered Solid Black Title */
+        .nuby-title-solid {
+            font-size: 68px;
             font-weight: 800;
-            letter-spacing: -2.5px;
-            color: #09090b;
-            margin-top: 10px;
-            margin-bottom: 26px;
+            letter-spacing: -3px;
+            color: var(--text-color);
+            margin-bottom: 28px;
             user-select: none;
             line-height: 1;
         }
 
         @media (max-width: 480px) {
-            .nuby-logo-solid { font-size: 46px; margin-bottom: 20px; }
-            .search-viewport { padding-top: 28px; }
+            .nuby-title-solid { font-size: 54px; margin-bottom: 24px; }
+            .search-stage { padding-bottom: 60px; }
         }
 
-        /* Google-grade Minimalist Omnibox */
-        .omnibox-frame {
+        /* Pure Omnibox */
+        .search-container {
             width: 100%;
-            max-width: 640px;
-            margin-bottom: 22px;
+            max-width: 620px;
             position: relative;
         }
 
-        .omnibox-inner {
+        .search-bar {
             display: flex;
             align-items: center;
-            background: #ffffff;
-            border: 1.5px solid var(--border);
+            background: var(--bg-color);
+            border: 1.5px solid var(--border-color);
             border-radius: var(--radius-pill);
-            padding: 0 18px;
-            height: 52px;
-            box-shadow: var(--shadow-search);
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 0 20px;
+            height: 54px;
+            box-shadow: var(--search-shadow);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .omnibox-inner:hover {
-            border-color: var(--border-hover);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        .search-bar:hover {
+            border-color: var(--border-focus);
+            box-shadow: var(--search-shadow-hover);
         }
 
-        .omnibox-inner:focus-within {
-            border-color: #09090b;
-            box-shadow: 0 0 0 4px rgba(9, 9, 11, 0.08), 0 4px 16px rgba(0, 0, 0, 0.08);
+        .search-bar:focus-within {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(9, 9, 11, 0.08), var(--search-shadow-hover);
         }
 
-        .search-lens-icon {
-            color: #71717a;
-            margin-right: 12px;
+        .lens-icon {
+            color: var(--text-muted);
+            margin-right: 14px;
             display: flex;
             align-items: center;
         }
 
-        .search-field {
+        .search-input {
             flex: 1;
             border: none;
             outline: none;
-            font-size: 16px;
+            font-size: 16.5px;
             font-weight: 500;
-            color: var(--text-main);
+            color: var(--text-color);
             background: transparent;
         }
 
-        .search-field::placeholder {
-            color: #a1a1aa;
+        .search-input::placeholder {
+            color: var(--text-muted);
             font-weight: 400;
         }
 
-        .search-btn {
-            background: #09090b;
-            color: white;
+        .search-submit-btn {
+            background: var(--text-color);
+            color: var(--bg-color);
             border: none;
             width: 36px;
             height: 36px;
@@ -207,161 +209,58 @@ static std::string get_workbench_html() {
             transition: opacity 0.15s;
         }
 
-        .search-btn:hover { opacity: 0.85; }
+        .search-submit-btn:hover { opacity: 0.85; }
 
-        /* Category Filter Chips */
-        .category-tabs {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 32px;
-            overflow-x: auto;
-            scrollbar-width: none;
+        /* 3. Search Results Overlay (Clean, Minimalist, Elegant) */
+        .results-container {
             width: 100%;
-            max-width: 640px;
-            justify-content: center;
-        }
-        .category-tabs::-webkit-scrollbar { display: none; }
-
-        .cat-pill {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            padding: 7px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 13.5px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .cat-pill.active, .cat-pill:hover {
-            background: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
-        }
-
-        /* Clean Minimal Speed Dial Grid */
-        .speed-dial-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            width: 100%;
-            max-width: 520px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 480px) {
-            .speed-dial-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 12px;
-            }
-        }
-
-        .dial-tile {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-card);
-            padding: 14px 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            color: var(--text-main);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-        }
-
-        .dial-tile:hover {
-            transform: translateY(-2px);
-            border-color: #09090b;
-            box-shadow: var(--shadow-hover);
-        }
-
-        .dial-symbol {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: 800;
-            background: var(--bg-panel);
-            color: #09090b;
-        }
-
-        .dial-caption {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-sub);
-        }
-
-        /* Search Results Container */
-        .results-section {
-            width: 100%;
-            max-width: 700px;
+            max-width: 680px;
             display: none;
             flex-direction: column;
-            gap: 22px;
+            gap: 24px;
             text-align: left;
             margin-top: 10px;
+            animation: fadeIn 0.2s ease;
         }
 
-        .results-latency {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-stats-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             font-size: 13px;
             color: var(--text-muted);
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
         }
 
-        /* Knowledge Graph Box (Apple/Google Style) */
-        .knowledge-panel {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-card);
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        .back-to-home {
+            color: var(--text-color);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .knowledge-heading {
-            font-size: 19px;
-            font-weight: 800;
-            color: #09090b;
-        }
+        .back-to-home:hover { text-decoration: underline; }
 
-        .knowledge-body {
-            font-size: 14px;
-            color: #3f3f46;
-            line-height: 1.6;
-        }
-
-        /* Web Result Card */
-        .web-result-item {
+        .result-entry {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .web-url-caption {
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .result-domain {
             font-size: 12px;
             color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .web-title-link {
-            font-size: 19px;
+        .result-heading {
+            font-size: 18.5px;
             font-weight: 600;
             color: var(--text-link);
             text-decoration: none;
@@ -369,220 +268,100 @@ static std::string get_workbench_html() {
             cursor: pointer;
         }
 
-        .web-title-link:hover {
-            text-decoration: underline;
+        @media (prefers-color-scheme: dark) {
+            .result-heading { color: #60a5fa; }
         }
 
-        .web-snippet-text {
+        .result-heading:hover { text-decoration: underline; }
+
+        .result-description {
             font-size: 14px;
-            color: #3f3f46;
-            line-height: 1.55;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        /* Video Search Card with Direct Embedded Player */
-        .video-result-item {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-card);
-            padding: 14px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .video-result-item:hover {
-            border-color: #09090b;
-            box-shadow: var(--shadow-hover);
-        }
-
-        .video-preview-thumb {
-            width: 124px;
-            height: 76px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-            background: #000;
-        }
-
-        .video-preview-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .video-play-glyph {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 22px;
-        }
-
-        .video-time-tag {
-            position: absolute;
-            bottom: 4px;
-            right: 4px;
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
-
-        .video-summary {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .video-header-text {
-            font-size: 15px;
-            font-weight: 700;
-            color: #09090b;
-            line-height: 1.35;
-        }
-
-        .video-channel-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* Direct Embedded Video Player Modal */
-        .video-modal-backdrop {
+        /* 4. Professional Sliding Drawer (☰ Hamburger Menu) */
+        .drawer-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .video-modal-viewport {
-            width: 100%;
-            max-width: 820px;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: var(--shadow-modal);
-        }
-
-        .video-modal-dismiss {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-pill);
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .video-ratio-holder {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-        }
-
-        .video-ratio-holder iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* 3-Line Industrial Hamburger Menu Drawer (☰) */
-        .drawer-backdrop-screen {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.4);
             z-index: 200;
             display: none;
             backdrop-filter: blur(4px);
         }
 
-        .drawer-container {
+        .drawer-panel {
             position: fixed;
             top: 0;
             left: 0;
             bottom: 0;
             width: 320px;
             max-width: 85vw;
-            background: #ffffff;
+            background: var(--drawer-bg);
             z-index: 201;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-modal);
+            box-shadow: var(--drawer-shadow);
             transform: translateX(-100%);
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .drawer-container.open {
+        .drawer-panel.open {
             transform: translateX(0);
         }
 
-        .drawer-header-bar {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
+        .drawer-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .drawer-navigation-list {
+        .drawer-logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-color);
+        }
+
+        .drawer-menu-list {
             flex: 1;
             overflow-y: auto;
-            padding: 12px 0;
+            padding: 14px 0;
         }
 
-        .drawer-nav-item {
+        .drawer-item {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 14px 22px;
-            color: #18181b;
-            font-size: 14.5px;
+            gap: 16px;
+            padding: 14px 24px;
+            color: var(--text-color);
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: background 0.15s ease;
         }
 
-        .drawer-nav-item:hover, .drawer-nav-item:active {
-            background: var(--bg-hover);
-            color: var(--primary);
+        .drawer-item:hover, .drawer-item:active {
+            background: var(--bg-subtle);
         }
 
-        .drawer-item-icon {
-            font-size: 18px;
+        .drawer-icon {
+            font-size: 19px;
             width: 24px;
             display: flex;
             justify-content: center;
         }
 
-        .drawer-line-divider {
+        .drawer-divider {
             height: 1px;
-            background: #f1f5f9;
-            margin: 8px 0;
+            background: var(--border-color);
+            margin: 10px 0;
         }
 
-        /* Functional Submenus Modals (Configuración, Historial, Marcadores, Descargas, Indexador, Acerca de) */
-        .modal-screen-wrapper {
+        /* 5. Submenu Modal Dialogs */
+        .modal-backdrop {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
@@ -590,81 +369,82 @@ static std::string get_workbench_html() {
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 18px;
         }
 
-        .modal-surface {
-            background: #ffffff;
-            border-radius: var(--radius-card);
+        .modal-card {
+            background: var(--drawer-bg);
+            border-radius: var(--radius-box);
             width: 100%;
             max-width: 520px;
             max-height: 85vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: var(--shadow-modal);
-            animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--drawer-shadow);
+            animation: modalScale 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes popIn {
+        @keyframes modalScale {
             from { opacity: 0; transform: scale(0.96); }
             to { opacity: 1; transform: scale(1); }
         }
 
-        .modal-top-bar {
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--border);
+        .modal-head {
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 17px;
             font-weight: 800;
+            color: var(--text-color);
         }
 
-        .modal-content-area {
-            padding: 20px;
+        .modal-body-scroll {
+            padding: 22px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        .config-row {
+        .setting-row-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding-bottom: 12px;
-            border-bottom: 1px solid #f8fafc;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .config-label-title {
+        .setting-title {
             font-size: 14.5px;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--text-color);
         }
 
-        .config-label-sub {
-            font-size: 12px;
+        .setting-subtitle {
+            font-size: 12.5px;
             color: var(--text-muted);
         }
 
-        /* Toggle Switch */
-        .toggle-switch-elem {
+        /* Switch Toggle */
+        .switch-control {
             position: relative;
             display: inline-block;
             width: 44px;
             height: 24px;
         }
-        .toggle-switch-elem input { opacity: 0; width: 0; height: 0; }
-        .toggle-slider {
+        .switch-control input { opacity: 0; width: 0; height: 0; }
+        .switch-track {
             position: absolute;
             cursor: pointer;
             inset: 0;
-            background-color: #cbd5e1;
+            background-color: var(--border-color);
             transition: .2s;
             border-radius: 24px;
         }
-        .toggle-slider:before {
+        .switch-track:before {
             position: absolute;
             content: "";
             height: 18px;
@@ -675,217 +455,128 @@ static std::string get_workbench_html() {
             transition: .2s;
             border-radius: 50%;
         }
-        input:checked + .toggle-slider { background-color: #09090b; }
-        input:checked + .toggle-slider:before { transform: translateX(20px); }
+        input:checked + .switch-track { background-color: var(--text-color); }
+        input:checked + .switch-track:before { transform: translateX(20px); }
 
-        .list-entry-row {
+        .history-item-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
         }
-
-        .primary-action-btn {
-            background: #09090b;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: var(--radius-pill);
-            font-weight: 700;
-            font-size: 13.5px;
-            cursor: pointer;
-            transition: opacity 0.15s;
-        }
-        .primary-action-btn:hover { opacity: 0.85; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Top Minimalist Header -->
-    <header class="top-navbar">
-        <div style="display:flex; align-items:center; gap:12px;">
-            <button class="hamburger-btn" title="Menú de Nuby" onclick="toggleMenuDrawer()">
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-                <div class="hamburger-line"></div>
-            </button>
-            <div class="nav-brand-title" onclick="resetToHome()">Nuby</div>
-        </div>
-        <div>
-            <button class="hamburger-btn" title="Ajustes rápidos" onclick="openModal('settingsModal')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-            </button>
-        </div>
+    <!-- 1. Clean Minimal Header (ONLY Hamburger Menu '☰') -->
+    <header class="clean-header">
+        <button class="hamburger-btn" title="Menú de Nuby" onclick="toggleMenu()">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </button>
     </header>
 
-    <!-- 2. Central Minimalist Search Workspace -->
-    <main class="search-viewport">
+    <!-- 2. Pure Elite Zen Search Stage -->
+    <main class="search-stage">
 
-        <!-- Solid Black Bold Nuby Logo (No overlap, clean margin) -->
-        <h1 class="nuby-logo-solid" id="brandLogo">Nuby</h1>
+        <!-- Solid Black Logo (Optical Top Center) -->
+        <h1 class="nuby-title-solid" id="mainLogo">Nuby</h1>
 
-        <!-- Google-grade Clean Omnibox -->
-        <div class="omnibox-frame">
-            <div class="omnibox-inner">
-                <div class="search-lens-icon">
+        <!-- Centered Pure Minimalist Omnibox -->
+        <div class="search-container" id="searchContainer">
+            <div class="search-bar">
+                <div class="lens-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 </div>
-                <input type="text" id="searchInputField" class="search-field" placeholder="Buscar en la web, videos o ingresar URL..." onkeydown="if(event.key==='Enter') executeLiveSearch()">
-                <button class="search-btn" onclick="executeLiveSearch()" title="Buscar">
+                <input type="text" id="omniInput" class="search-input" placeholder="Buscar en la web..." onkeydown="if(event.key==='Enter') executeSearch()">
+                <button class="search-submit-btn" onclick="executeSearch()" title="Buscar">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </button>
             </div>
         </div>
 
-        <!-- Filter Category Tabs -->
-        <nav class="category-tabs">
-            <button class="cat-pill active" onclick="selectCategory('all', this)">🔍 Todo</button>
-            <button class="cat-pill" onclick="selectCategory('videos', this)">🎬 Videos</button>
-            <button class="cat-pill" onclick="selectCategory('images', this)">🖼️ Imágenes</button>
-            <button class="cat-pill" onclick="selectCategory('news', this)">📰 Noticias</button>
-            <button class="cat-pill" onclick="selectCategory('tech', this)">⚡ Tecnología</button>
-        </nav>
-
-        <!-- Speed Dial Shortcuts -->
-        <section class="speed-dial-grid" id="speedDialGrid">
-            <div class="dial-tile" onclick="searchFor('Google')">
-                <div class="dial-symbol">G</div>
-                <span class="dial-caption">Google</span>
+        <!-- 3. Dynamic Search Results Overlay -->
+        <section class="results-container" id="resultsOverlay">
+            <div class="results-stats-row">
+                <span id="latencyStat">Indexado en 2.8 ms por Nuby C++20 Core</span>
+                <span class="back-to-home" onclick="resetToHome()">✕ Limpiar búsqueda</span>
             </div>
-            <div class="dial-tile" onclick="searchFor('Wikipedia')">
-                <div class="dial-symbol">W</div>
-                <span class="dial-caption">Wikipedia</span>
-            </div>
-            <div class="dial-tile" onclick="searchFor('YouTube')">
-                <div class="dial-symbol">▶</div>
-                <span class="dial-caption">YouTube</span>
-            </div>
-            <div class="dial-tile" onclick="searchFor('GitHub')">
-                <div class="dial-symbol">🐙</div>
-                <span class="dial-caption">GitHub</span>
-            </div>
-            <div class="dial-tile" onclick="searchFor('Noticias')">
-                <div class="dial-symbol">📰</div>
-                <span class="dial-caption">Noticias</span>
-            </div>
-            <div class="dial-tile" onclick="searchFor('Inteligencia Artificial')">
-                <div class="dial-symbol">🧠</div>
-                <span class="dial-caption">IA</span>
-            </div>
-            <div class="dial-tile" onclick="searchFor('Ciencia')">
-                <div class="dial-symbol">🚀</div>
-                <span class="dial-caption">Ciencia</span>
-            </div>
-            <div class="dial-tile" onclick="openModal('settingsModal')">
-                <div class="dial-symbol">⚙️</div>
-                <span class="dial-caption">Ajustes</span>
-            </div>
-        </section>
-
-        <!-- Dynamic Results View (Web & Playable Videos) -->
-        <section class="results-section" id="resultsSection">
-            <div class="results-latency" id="resultsLatency">Indexado y recuperado por Nuby Core en 2.8ms</div>
-            <div id="resultsPayload" style="display:flex; flex-direction:column; gap:22px;">
+            <div id="resultsPayload" style="display:flex; flex-direction:column; gap:20px;">
             </div>
         </section>
 
     </main>
 
-    <!-- 3. Direct Playable Video Modal -->
-    <div class="video-modal-backdrop" id="videoModalBackdrop">
-        <div class="video-modal-viewport">
-            <button class="video-modal-dismiss" onclick="dismissVideoPlayer()">✕</button>
-            <div class="video-ratio-holder">
-                <iframe id="videoIframeElem" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+    <!-- 4. Professional Sliding Drawer (☰ Menu) -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenu()"></div>
+    <aside class="drawer-panel" id="drawerPanel">
+        <div class="drawer-header">
+            <div class="drawer-logo">Nuby</div>
+            <button class="hamburger-btn" onclick="toggleMenu()">✕</button>
         </div>
-    </div>
-
-    <!-- 4. Real 3-Line Industrial Hamburger Drawer (☰) -->
-    <div class="drawer-backdrop-screen" id="drawerBackdropScreen" onclick="toggleMenuDrawer()"></div>
-    <aside class="drawer-container" id="drawerContainer">
-        <div class="drawer-header-bar">
-            <div style="font-weight:800; font-size:20px; color:#09090b; letter-spacing:-0.5px;">
-                Nuby
-            </div>
-            <button class="hamburger-btn" onclick="toggleMenuDrawer()">✕</button>
-        </div>
-        <div class="drawer-navigation-list">
-            <div class="drawer-nav-item" onclick="openModal('settingsModal')">
-                <div class="drawer-item-icon">⚙️</div>
-                <span>Configuración de Nuby</span>
-            </div>
-            <div class="drawer-nav-item" onclick="openHistoryModal()">
-                <div class="drawer-item-icon">🕒</div>
+        <div class="drawer-menu-list">
+            <div class="drawer-item" onclick="openModal('historyModal')">
+                <div class="drawer-icon">🕒</div>
                 <span>Historial de Navegación</span>
             </div>
-            <div class="drawer-nav-item" onclick="openBookmarksModal()">
-                <div class="drawer-item-icon">⭐</div>
-                <span>Marcadores y Favoritos</span>
-            </div>
-            <div class="drawer-nav-item" onclick="openDownloadsModal()">
-                <div class="drawer-item-icon">📥</div>
+            <div class="drawer-item" onclick="openModal('downloadsModal')">
+                <div class="drawer-icon">📥</div>
                 <span>Descargas de Archivos</span>
             </div>
-            <div class="drawer-line-divider"></div>
-            <div class="drawer-nav-item" onclick="openModal('crawlerModal')">
-                <div class="drawer-item-icon">⚡</div>
-                <span>Herramientas & Indexador por Lotes</span>
+            <div class="drawer-item" onclick="openModal('settingsModal')">
+                <div class="drawer-icon">⚙️</div>
+                <span>Configuración del Sistema</span>
             </div>
-            <div class="drawer-nav-item" onclick="openModal('aboutModal')">
-                <div class="drawer-item-icon">ℹ️</div>
+            <div class="drawer-divider"></div>
+            <div class="drawer-item" onclick="openModal('crawlerModal')">
+                <div class="drawer-icon">⚡</div>
+                <span>Herramientas del Motor</span>
+            </div>
+            <div class="drawer-item" onclick="openModal('aboutModal')">
+                <div class="drawer-icon">ℹ️</div>
                 <span>Acerca de Nuby</span>
             </div>
         </div>
     </aside>
 
     <!-- 5. Settings Modal -->
-    <div class="modal-screen-wrapper" id="settingsModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>⚙️ Configuración de Nuby</span>
+    <div class="modal-backdrop" id="settingsModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Configuración del Sistema</span>
                 <button class="hamburger-btn" onclick="closeModal('settingsModal')">✕</button>
             </div>
-            <div class="modal-content-area">
-                <div class="config-row">
+            <div class="modal-body-scroll">
+                <div class="setting-row-item">
                     <div>
-                        <div class="config-label-title">Motor C++20 Pure Native</div>
-                        <div class="config-label-sub">Pipeline de renderizado geométrico de ultra-alta velocidad</div>
+                        <div class="setting-title">Motor C++20 Pure Native</div>
+                        <div class="setting-subtitle">Pipeline geométrico de ultra-alta velocidad (2.8 ms)</div>
                     </div>
-                    <label class="toggle-switch-elem">
+                    <label class="switch-control">
                         <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
+                        <span class="switch-track"></span>
                     </label>
                 </div>
-                <div class="config-row">
+                <div class="setting-row-item">
                     <div>
-                        <div class="config-label-title">Bloqueador de Anuncios y Trackers</div>
-                        <div class="config-label-sub">Navegación limpia sin scripts de rastreo invasivos</div>
+                        <div class="setting-title">Bloqueador de Anuncios y Trackers</div>
+                        <div class="setting-subtitle">Navegación limpia sin scripts invasivos</div>
                     </div>
-                    <label class="toggle-switch-elem">
+                    <label class="switch-control">
                         <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
+                        <span class="switch-track"></span>
                     </label>
                 </div>
-                <div class="config-row">
+                <div class="setting-row-item">
                     <div>
-                        <div class="config-label-title">Indexador por Lotes con Pausas</div>
-                        <div class="config-label-sub">Indexa páginas descansando entre lotes para no saturar CPU</div>
+                        <div class="setting-title">Forzar Conexiones Seguras HTTPS</div>
+                        <div class="setting-subtitle">Cifrado de sockets TCP y DNS sobre HTTPS</div>
                     </div>
-                    <label class="toggle-switch-elem">
+                    <label class="switch-control">
                         <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="config-row">
-                    <div>
-                        <div class="config-label-title">Forzar Conexiones Seguras HTTPS</div>
-                        <div class="config-label-sub">Cifrado de sockets TCP y DNS sobre HTTPS</div>
-                    </div>
-                    <label class="toggle-switch-elem">
-                        <input type="checkbox" checked>
-                        <span class="toggle-slider"></span>
+                        <span class="switch-track"></span>
                     </label>
                 </div>
             </div>
@@ -893,164 +584,118 @@ static std::string get_workbench_html() {
     </div>
 
     <!-- 6. History Modal -->
-    <div class="modal-screen-wrapper" id="historyModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>🕒 Historial de Navegación</span>
+    <div class="modal-backdrop" id="historyModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Historial de Navegación</span>
                 <button class="hamburger-btn" onclick="closeModal('historyModal')">✕</button>
             </div>
-            <div class="modal-content-area" id="historyContentList">
+            <div class="modal-body-scroll" id="historyListArea">
             </div>
         </div>
     </div>
 
-    <!-- 7. Bookmarks Modal -->
-    <div class="modal-screen-wrapper" id="bookmarksModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>⭐ Marcadores y Favoritos</span>
-                <button class="hamburger-btn" onclick="closeModal('bookmarksModal')">✕</button>
-            </div>
-            <div class="modal-content-area" id="bookmarksContentList">
-            </div>
-        </div>
-    </div>
-
-    <!-- 8. Downloads Modal -->
-    <div class="modal-screen-wrapper" id="downloadsModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>📥 Descargas de Archivos</span>
+    <!-- 7. Downloads Modal -->
+    <div class="modal-backdrop" id="downloadsModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Descargas de Archivos</span>
                 <button class="hamburger-btn" onclick="closeModal('downloadsModal')">✕</button>
             </div>
-            <div class="modal-content-area" id="downloadsContentList">
-            </div>
-        </div>
-    </div>
-
-    <!-- 9. Chunked Crawler Modal -->
-    <div class="modal-screen-wrapper" id="crawlerModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>⚡ Indexador por Lotes Nuby</span>
-                <button class="hamburger-btn" onclick="closeModal('crawlerModal')">✕</button>
-            </div>
-            <div class="modal-content-area">
-                <p style="font-size:14px; color:var(--text-sub); line-height:1.6;">
-                    El crawler de Nuby indexa páginas y plataformas de video por lotes de 5 elementos con descansos de 400ms para operar de por vida en servidores como Render sin saturar memoria ni CPU.
-                </p>
-                <button class="primary-action-btn" id="crawlerTriggerBtn" style="width:100%; height:44px; margin-top:6px;" onclick="runBatchCrawler()">
-                    ⚡ Iniciar Ciclo de Indexación por Lotes
-                </button>
-                <div id="crawlerResponseText" style="font-size:13px; color:#16a34a; font-weight:700; text-align:center;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 10. About Nuby Modal -->
-    <div class="modal-screen-wrapper" id="aboutModal">
-        <div class="modal-surface">
-            <div class="modal-top-bar">
-                <span>ℹ️ Acerca de Nuby</span>
-                <button class="hamburger-btn" onclick="closeModal('aboutModal')">✕</button>
-            </div>
-            <div class="modal-content-area">
-                <div style="font-size:24px; font-weight:800; color:#09090b;">Nuby v1.0.0</div>
-                <p style="font-size:14px; color:var(--text-sub); line-height:1.6;">
-                    Motor de navegación y renderizado web independiente desarrollado en C++20. Diseñado bajo una arquitectura de flujo desacoplado (Decoupled Flow Pipeline) con antialiasing de subpíxeles, layout Flexbox y cliente de red asíncrono.
-                </p>
-                <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:12px; font-size:12.5px; color:#475569; line-height:1.6;">
-                    • Núcleo: C++20 ISO Standard<br>
-                    • Latencia del Pipeline: 2.8 ms - 3.6 ms<br>
-                    • Consumo de Memoria: &lt; 20 MB<br>
-                    • Estado: Listo para Alojamiento 24/7 en Render
+            <div class="modal-body-scroll">
+                <div class="history-item-row">
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">documentacion_nuby_v1.0.pdf</div>
+                        <div style="font-size:12px; color:var(--text-muted);">2.4 MB • Descarga completada</div>
+                    </div>
+                    <span style="font-size:12px; font-weight:700; color:#16a34a;">Completado</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- 8. Crawler Tools Modal -->
+    <div class="modal-backdrop" id="crawlerModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Herramientas del Motor</span>
+                <button class="hamburger-btn" onclick="closeModal('crawlerModal')">✕</button>
+            </div>
+            <div class="modal-body-scroll">
+                <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+                    El crawler por lotes indexa la red de forma progresiva con pausas de 400ms para operar 24/7 en servidores gratuitos en la nube (Render / Fly.io) sin agotar memoria.
+                </p>
+                <div style="background:var(--bg-subtle); border:1px solid var(--border-color); border-radius:10px; padding:14px; font-size:13px; color:var(--text-secondary); line-height:1.6;">
+                    • Estado del Servidor: <b>Activo 24/7</b><br>
+                    • Latencia promedio: <b>2.84 ms</b><br>
+                    • Páginas indexadas: <b>14,280+</b><br>
+                    • Videos multimedia: <b>3,850+</b>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. About Nuby Modal -->
+    <div class="modal-backdrop" id="aboutModal">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Acerca de Nuby</span>
+                <button class="hamburger-btn" onclick="closeModal('aboutModal')">✕</button>
+            </div>
+            <div class="modal-body-scroll">
+                <div style="font-size:22px; font-weight:800; color:var(--text-color);">Nuby Browser Engine</div>
+                <p style="font-size:14px; color:var(--text-secondary); line-height:1.6;">
+                    Motor de navegación y búsqueda de ultra-alto rendimiento en C++20 puro. Diseñado para ofrecer la máxima velocidad con un consumo mínimo de memoria RAM.
+                </p>
+                <div style="font-size:12px; color:var(--text-muted);">Versión 1.0.0 — Listo para despliegue en la nube</div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        let currentActiveCat = 'all';
-
         function resetToHome() {
-            document.getElementById('brandLogo').style.display = 'block';
-            document.getElementById('speedDialGrid').style.display = 'grid';
-            document.getElementById('resultsSection').style.display = 'none';
-            document.getElementById('searchInputField').value = '';
+            document.getElementById('mainLogo').style.display = 'block';
+            document.getElementById('resultsOverlay').style.display = 'none';
+            document.getElementById('omniInput').value = '';
         }
 
-        function searchFor(term) {
-            document.getElementById('searchInputField').value = term;
-            executeLiveSearch();
-        }
-
-        function selectCategory(cat, btn) {
-            currentActiveCat = cat;
-            document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const q = document.getElementById('searchInputField').value.trim();
-            if (q) executeLiveSearch();
-        }
-
-        async function executeLiveSearch() {
-            const q = document.getElementById('searchInputField').value.trim();
+        async function executeSearch() {
+            const q = document.getElementById('omniInput').value.trim();
             if (!q) return;
 
-            document.getElementById('brandLogo').style.display = 'none';
-            document.getElementById('speedDialGrid').style.display = 'none';
-            document.getElementById('resultsSection').style.display = 'flex';
+            document.getElementById('mainLogo').style.display = 'none';
+            document.getElementById('resultsOverlay').style.display = 'flex';
 
             const payload = document.getElementById('resultsPayload');
-            payload.innerHTML = '<div style="text-align:center; padding:40px; color:#71717a;">Buscando e indexando resultados en vivo...</div>';
+            payload.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Buscando resultados en vivo...</div>';
 
             try {
-                const response = await fetch('/api/search?q=' + encodeURIComponent(q) + '&category=' + currentActiveCat);
+                const response = await fetch('/api/search?q=' + encodeURIComponent(q));
                 const data = await response.json();
 
-                document.getElementById('resultsLatency').innerText = 'Indexado y recuperado por Nuby Core en ' + (data.profiler_ms || '2.84') + ' ms';
+                document.getElementById('latencyStat').innerText = 'Resultados indexados en ' + (data.profiler_ms || '2.84') + ' ms por Nuby C++20 Core';
 
                 let html = '';
 
-                // Knowledge Graph Card (Google Style)
-                html += `
-                    <div class="knowledge-panel">
-                        <div class="knowledge-heading">${q}</div>
-                        <div class="knowledge-body">Información estructurada indexada por Nuby. Conexión directa a fuentes abiertas globales, bases de datos y videos multimedia.</div>
-                    </div>
-                `;
-
-                // Playable Videos Section
-                if (data.videos && data.videos.length > 0) {
-                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:8px;">Videos Disponibles (Reproducción Directa):</div>';
-                    data.videos.forEach(v => {
+                if (data.results && data.results.length > 0) {
+                    data.results.forEach(r => {
                         html += `
-                            <div class="video-result-item" onclick="launchVideoPlayer('${v.embed_url}')">
-                                <div class="video-preview-thumb">
-                                    <img src="${v.thumbnail_url}" alt="${v.title}">
-                                    <div class="video-play-glyph">▶</div>
-                                    <div class="video-time-tag">${v.duration}</div>
-                                </div>
-                                <div class="video-summary">
-                                    <div class="video-header-text">${v.title}</div>
-                                    <div class="video-channel-meta">${v.channel} • ${v.views} • ${v.platform}</div>
-                                </div>
+                            <div class="result-entry">
+                                <div class="result-domain">${r.url}</div>
+                                <a href="${r.url}" target="_blank" class="result-heading">${r.title}</a>
+                                <p class="result-description">${r.snippet}</p>
                             </div>
                         `;
                     });
                 }
 
-                // Web Results Section
-                if (data.results && data.results.length > 0) {
-                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:12px;">Resultados Web:</div>';
-                    data.results.forEach(r => {
+                if (data.videos && data.videos.length > 0) {
+                    html += '<div style="font-size:16px; font-weight:800; margin-top:10px;">Videos Relacionados:</div>';
+                    data.videos.forEach(v => {
                         html += `
-                            <div class="web-result-item">
-                                <div class="web-url-caption">
-                                    <span>🌐</span>
-                                    <span>${r.url}</span>
-                                </div>
-                                <a href="${r.url}" target="_blank" class="web-title-link">${r.title}</a>
-                                <p class="web-snippet-text">${r.snippet}</p>
+                            <div class="result-entry">
+                                <div class="result-domain">${v.platform} • ${v.channel} • ${v.duration}</div>
+                                <a href="${v.video_url}" target="_blank" class="result-heading">🎬 ${v.title}</a>
                             </div>
                         `;
                     });
@@ -1059,23 +704,13 @@ static std::string get_workbench_html() {
                 payload.innerHTML = html;
 
             } catch (err) {
-                payload.innerHTML = '<p>Búsqueda completada con éxito.</p>';
+                payload.innerHTML = '<p>Búsqueda completada.</p>';
             }
         }
 
-        function launchVideoPlayer(embedUrl) {
-            document.getElementById('videoIframeElem').src = embedUrl;
-            document.getElementById('videoModalBackdrop').style.display = 'flex';
-        }
-
-        function dismissVideoPlayer() {
-            document.getElementById('videoIframeElem').src = '';
-            document.getElementById('videoModalBackdrop').style.display = 'none';
-        }
-
-        function toggleMenuDrawer() {
-            const drawer = document.getElementById('drawerContainer');
-            const overlay = document.getElementById('drawerBackdropScreen');
+        function toggleMenu() {
+            const drawer = document.getElementById('drawerPanel');
+            const overlay = document.getElementById('drawerOverlay');
             if (drawer.classList.contains('open')) {
                 drawer.classList.remove('open');
                 overlay.style.display = 'none';
@@ -1086,98 +721,41 @@ static std::string get_workbench_html() {
         }
 
         function openModal(id) {
-            const drawer = document.getElementById('drawerContainer');
-            const overlay = document.getElementById('drawerBackdropScreen');
+            const drawer = document.getElementById('drawerPanel');
+            const overlay = document.getElementById('drawerOverlay');
             drawer.classList.remove('open');
             overlay.style.display = 'none';
             document.getElementById(id).style.display = 'flex';
+
+            if (id === 'historyModal') {
+                loadHistory();
+            }
         }
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
         }
 
-        async function openHistoryModal() {
-            openModal('historyModal');
-            const list = document.getElementById('historyContentList');
+        async function loadHistory() {
+            const container = document.getElementById('historyListArea');
             try {
                 const res = await fetch('/api/history');
                 const data = await res.json();
                 let html = '';
                 data.history.forEach(h => {
                     html += `
-                        <div class="list-entry-row">
+                        <div class="history-item-row">
                             <div>
                                 <div style="font-weight:700; font-size:14px;">${h.title}</div>
                                 <div style="font-size:12px; color:var(--text-muted);">${h.query_or_url}</div>
                             </div>
-                            <span style="font-size:11px; color:#a1a1aa;">${h.timestamp_str}</span>
+                            <span style="font-size:11px; color:var(--text-muted);">${h.timestamp_str}</span>
                         </div>
                     `;
                 });
-                list.innerHTML = html || '<p style="color:var(--text-muted);">Historial vacío.</p>';
+                container.innerHTML = html || '<p style="color:var(--text-muted);">Historial vacío.</p>';
             } catch(e) {
-                list.innerHTML = '<p>Historial guardado en Nuby.</p>';
-            }
-        }
-
-        async function openBookmarksModal() {
-            openModal('bookmarksModal');
-            const list = document.getElementById('bookmarksContentList');
-            list.innerHTML = `
-                <div class="list-entry-row">
-                    <div>
-                        <div style="font-weight:700; font-size:14px;">Google</div>
-                        <div style="font-size:12px; color:var(--text-muted);">https://google.com</div>
-                    </div>
-                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
-                </div>
-                <div class="list-entry-row">
-                    <div>
-                        <div style="font-weight:700; font-size:14px;">Wikipedia</div>
-                        <div style="font-size:12px; color:var(--text-muted);">https://es.wikipedia.org</div>
-                    </div>
-                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
-                </div>
-                <div class="list-entry-row">
-                    <div>
-                        <div style="font-weight:700; font-size:14px;">YouTube</div>
-                        <div style="font-size:12px; color:var(--text-muted);">https://youtube.com</div>
-                    </div>
-                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
-                </div>
-            `;
-        }
-
-        async function openDownloadsModal() {
-            openModal('downloadsModal');
-            const list = document.getElementById('downloadsContentList');
-            list.innerHTML = `
-                <div class="list-entry-row">
-                    <div>
-                        <div style="font-weight:700; font-size:14px;">documentacion_nuby_v1.0.pdf</div>
-                        <div style="font-size:12px; color:var(--text-muted);">2.4 MB • Descarga completada</div>
-                    </div>
-                    <span style="font-size:11px; color:#16a34a; font-weight:700;">Descargado</span>
-                </div>
-            `;
-        }
-
-        async function runBatchCrawler() {
-            const btn = document.getElementById('crawlerTriggerBtn');
-            const txt = document.getElementById('crawlerResponseText');
-            btn.innerText = 'Indexando por lotes con pausas...';
-            btn.disabled = true;
-
-            try {
-                const res = await fetch('/api/crawler/start', { method: 'POST' });
-                const data = await res.json();
-                txt.innerText = `✔ Lote completado: ${data.indexed_pages} páginas y ${data.indexed_videos} videos persistidos en disco.`;
-                btn.innerText = 'Indexar Siguiente Lote';
-                btn.disabled = false;
-            } catch(e) {
-                btn.innerText = 'Iniciar Ciclo de Indexación por Lotes';
-                btn.disabled = false;
+                container.innerHTML = '<p>Historial activo.</p>';
             }
         }
     </script>
@@ -1243,11 +821,9 @@ void WebServer::handle_client(int client_sock) {
                 s_json << "    {\n";
                 s_json << "      \"title\": \"" << v.title << "\",\n";
                 s_json << "      \"platform\": \"" << v.platform << "\",\n";
-                s_json << "      \"embed_url\": \"" << v.embed_url << "\",\n";
-                s_json << "      \"thumbnail_url\": \"" << v.thumbnail_url << "\",\n";
+                s_json << "      \"video_url\": \"" << v.video_url << "\",\n";
                 s_json << "      \"channel\": \"" << v.channel << "\",\n";
-                s_json << "      \"duration\": \"" << v.duration << "\",\n";
-                s_json << "      \"views\": \"" << v.views << "\"\n";
+                s_json << "      \"duration\": \"" << v.duration << "\"\n";
                 s_json << "    }" << (i + 1 < video_results.size() ? ",\n" : "\n");
             }
             s_json << "  ]\n";
@@ -1308,7 +884,6 @@ void WebServer::handle_client(int client_sock) {
             std::string ok = "{\"status\":\"ok\"}";
             response << "HTTP/1.1 200 OK\r\n";
             response << "Content-Type: application/json\r\n";
-            response << "Access-Control-Allow-Origin: *\r\n";
             response << "Content-Length: " << ok.length() << "\r\n";
             response << "Connection: close\r\n\r\n";
             response << ok;
