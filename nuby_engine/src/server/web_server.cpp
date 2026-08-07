@@ -17,7 +17,7 @@ static std::string get_workbench_html() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuby & DevTools Workbench</title>
+    <title>Nuby Browser Engine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -59,12 +59,11 @@ static std::string get_workbench_html() {
             border: 1px solid rgba(59,130,246,0.4);
             padding: 6px 12px;
             border-radius: 8px;
-            font-weight: 700;
-            font-size: 13px;
+            font-weight: 800;
+            font-size: 14px;
             letter-spacing: 0.5px;
-            color: #60a5fa;
+            color: #38bdf8;
         }
-        .engine-badge span { color: #a5f3fc; }
         .nav-controls {
             display: flex;
             gap: 6px;
@@ -388,7 +387,7 @@ static std::string get_workbench_html() {
     <header class="browser-header">
         <div class="engine-badge">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            NUBY<span>CORE</span> v1.0
+            NUBY
         </div>
         <div class="nav-controls">
             <button class="nav-btn" title="Back" onclick="loadPreset('dashboard')">◀</button>
@@ -397,7 +396,7 @@ static std::string get_workbench_html() {
         </div>
         <div class="url-bar-container">
             <span class="url-protocol">nuby://</span>
-            <input type="text" id="urlInput" class="url-input" value="core/workbench.html" placeholder="Enter URL or nuby:// query...">
+            <input type="text" id="urlInput" class="url-input" value="nuby/workbench.html" placeholder="Enter URL or nuby:// query...">
         </div>
         <button class="action-btn" onclick="triggerRender()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -449,7 +448,7 @@ static std::string get_workbench_html() {
                         </div>
                         <div class="code-input-group" style="flex: 0.8;">
                             <label class="code-label">JavaScript (ECMAScript DOM Script)</label>
-                            <textarea id="jsCode" class="code-textarea" rows="4" placeholder="console.log('Engine ready!');"></textarea>
+                            <textarea id="jsCode" class="code-textarea" rows="4" placeholder="console.log('Nuby engine ready!');"></textarea>
                         </div>
                         <button class="action-btn" style="width:100%; justify-content:center; padding:10px;" onclick="triggerRender()">
                             ⚡ Execute C++20 Rendering Pipeline
@@ -463,7 +462,6 @@ static std::string get_workbench_html() {
                         Interactive Document Object Model (Parsed via WHATWG compliant state machine):
                     </div>
                     <div id="domTreeViewer" style="background:var(--bg-base); padding:12px; border-radius:6px; border:1px solid var(--border);">
-                        <!-- Dynamic DOM tree rendered here -->
                     </div>
                 </div>
 
@@ -473,7 +471,6 @@ static std::string get_workbench_html() {
                         Computed CSS Properties & Selector Specificity Resolver:
                     </div>
                     <div id="stylesViewer" style="display:flex; flex-direction:column; gap:10px;">
-                        <!-- Dynamic Computed Styles rendered here -->
                     </div>
                 </div>
 
@@ -513,7 +510,6 @@ static std::string get_workbench_html() {
                         Real-time C++20 Pipeline Latency Breakdown:
                     </div>
                     <div id="profilerEvents">
-                        <!-- Dynamic timeline breakdown -->
                     </div>
                     <div class="timeline-card" style="background:rgba(59,130,246,0.1); border-color:rgba(59,130,246,0.3); margin-top:14px;">
                         <div style="font-weight:700; font-size:13px; color:#60a5fa; margin-bottom:4px;">Total Pipeline Execution Time</div>
@@ -539,7 +535,7 @@ static std::string get_workbench_html() {
   </div>
   <div class="main-content">
     <div class="top-nav">
-      <div class="page-title">Next-Gen Engine Performance</div>
+      <div class="page-title">Nuby Engine Performance</div>
       <div class="user-badge">Admin User</div>
     </div>
     <div class="metrics-grid">
@@ -670,7 +666,7 @@ static std::string get_workbench_html() {
   color: #cbd5e1;
   line-height: 22px;
 }`,
-                js: `console.log("NubyEngine initial render loaded successfully.");`
+                js: `console.log("Nuby initial render loaded successfully.");`
             },
             ecommerce: {
                 html: `<div class="store-wrapper">
@@ -680,19 +676,19 @@ static std::string get_workbench_html() {
   </div>
   <div class="hero-sale">
     <div class="sale-tag">LIMITED EDITION</div>
-    <div class="sale-title">Engine Developer Pro Kit</div>
+    <div class="sale-title">Nuby Developer Pro Kit</div>
     <div class="sale-desc">Hardware-accelerated C++20 compiler tooling & subpixel graphics pipeline.</div>
   </div>
   <div class="products-row">
     <div class="prod-card">
       <div class="prod-badge">POPULAR</div>
-      <div class="prod-title">Quantum V8 Engine</div>
+      <div class="prod-title">Quantum Engine Core</div>
       <div class="prod-price">$299.00</div>
       <div class="prod-btn">Add to Cart</div>
     </div>
     <div class="prod-card">
       <div class="prod-badge">NEW</div>
-      <div class="prod-title">Skia Software Rasterizer</div>
+      <div class="prod-title">Subpixel Software Rasterizer</div>
       <div class="prod-price">$189.00</div>
       <div class="prod-btn">Add to Cart</div>
     </div>
@@ -939,13 +935,8 @@ document.getElementById("count").textContent = "Count: " + (count + 8);`
                 }
                 ctx.putImageData(imgData, 0, 0);
 
-                // Update Profiler
                 updateProfiler(data.profiler);
-
-                // Update DOM Tree
                 updateDOMTree(data.dom);
-
-                // Update Styles
                 updateStyles(data.styles);
 
             } catch (err) {
@@ -1033,7 +1024,6 @@ document.getElementById("count").textContent = "Count: " + (count + 8);`
             `;
         }
 
-        // Initialize with default preset
         window.addEventListener('DOMContentLoaded', () => {
             loadPreset('dashboard');
         });
@@ -1059,7 +1049,6 @@ void WebServer::handle_client(int client_sock) {
     req_stream >> method >> path >> proto;
 
     std::ostringstream response;
-
     std::string clean_path = path;
     size_t q_mark = clean_path.find('?');
     if (q_mark != std::string::npos) {
@@ -1091,7 +1080,6 @@ void WebServer::handle_client(int client_sock) {
         std::string css_code;
         std::string js_code;
 
-        // Simple JSON extractor for html, css, js
         auto extract_json_field = [](const std::string& json, const std::string& key) {
             std::string search = "\"" + key + "\":\"";
             size_t pos = json.find(search);
@@ -1124,10 +1112,8 @@ void WebServer::handle_client(int client_sock) {
             html_code = "<div><h1>Nuby Engine</h1><p>Rendered directly via C++20 pipeline.</p></div>";
         }
 
-        // Execute Engine
         RenderResult render_result = engine_.render_page(html_code, css_code, js_code);
 
-        // Build Response JSON
         std::ostringstream json_res;
         json_res << "{\n";
         json_res << "  \"width\": " << render_result.width << ",\n";
@@ -1164,33 +1150,50 @@ void WebServer::handle_client(int client_sock) {
 }
 
 void WebServer::run_synchronous() {
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_fd < 0) {
-        std::cerr << "Failed to create socket\n";
-        return;
-    }
+    int server_fd = -1;
+    int current_port = port_;
+    int attempts = 0;
+    const int max_attempts = 15;
 
-    int opt = 1;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt));
+    while (attempts < max_attempts) {
+        server_fd = socket(AF_INET, SOCK_STREAM, 0);
+        if (server_fd < 0) {
+            std::cerr << "Failed to create socket\n";
+            return;
+        }
 
-    struct sockaddr_in address{};
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
-    address.sin_port = htons(port_);
+        int opt = 1;
+        setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+#ifdef SO_REUSEPORT
+        setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+#endif
 
-    if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) < 0) {
-        std::cerr << "Bind failed on port " << port_ << "\n";
+        struct sockaddr_in address{};
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
+        address.sin_port = htons(current_port);
+
+        if (bind(server_fd, (struct sockaddr*)&address, sizeof(address)) >= 0) {
+            port_ = current_port;
+            break; // Successfully bound!
+        }
+
         close(server_fd);
+        server_fd = -1;
+        current_port++;
+        attempts++;
+    }
+
+    if (server_fd < 0 || listen(server_fd, 50) < 0) {
+        std::cerr << "Could not bind to port " << port_ << " or fallback ports.\n";
+        if (server_fd >= 0) close(server_fd);
         return;
     }
 
-    if (listen(server_fd, 50) < 0) {
-        std::cerr << "Listen failed\n";
-        close(server_fd);
-        return;
-    }
+    std::cout << "\033[1;32m[✔] Nuby Server activo y escuchando en:\033[0m\n"
+              << "    👉 \033[1;34mhttp://localhost:" << port_ << "\033[0m o \033[1;34mhttp://127.0.0.1:" << port_ << "\033[0m\n"
+              << "----------------------------------------------------------------------\n";
 
-    std::cout << "🚀 NubyBrowserEngine DevTools Server running on http://0.0.0.0:" << port_ << std::endl;
     running_ = true;
 
     while (running_) {
