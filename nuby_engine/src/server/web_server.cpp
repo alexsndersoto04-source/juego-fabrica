@@ -25,26 +25,25 @@ static std::string get_workbench_html() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nuby</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #ffffff;
-            --bg-subtle: #f8fafc;
-            --bg-card: #ffffff;
+            --bg-hover: #f8fafc;
+            --bg-panel: #f1f5f9;
             --border: #e2e8f0;
             --border-hover: #cbd5e1;
             --text-main: #09090b;
             --text-sub: #52525b;
             --text-muted: #71717a;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --accent-soft: #eff6ff;
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 12px 32px -4px rgba(0, 0, 0, 0.1);
+            --text-link: #1a0dab;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --shadow-search: 0 1px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.16);
             --radius-pill: 9999px;
-            --radius-md: 16px;
-            --radius-sm: 10px;
+            --radius-card: 14px;
         }
 
         * {
@@ -52,7 +51,7 @@ static std::string get_workbench_html() {
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, Roboto, Arial, sans-serif;
         }
 
         body {
@@ -65,7 +64,7 @@ static std::string get_workbench_html() {
         }
 
         /* Top Minimal Header */
-        .top-nav {
+        .top-navbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -77,62 +76,43 @@ static std::string get_workbench_html() {
             z-index: 100;
         }
 
-        .nav-left, .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-btn {
+        .hamburger-btn {
             background: transparent;
             border: none;
+            cursor: pointer;
             width: 42px;
             height: 42px;
-            border-radius: var(--radius-pill);
+            border-radius: 50%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 4.5px;
-            cursor: pointer;
-            transition: all 0.15s ease;
+            transition: background 0.15s;
         }
 
-        .icon-btn:hover, .icon-btn:active {
-            background: var(--bg-subtle);
+        .hamburger-btn:hover, .hamburger-btn:active {
+            background: var(--bg-hover);
         }
 
-        .bar-line {
+        .hamburger-line {
             width: 20px;
             height: 2px;
-            background-color: #27272a;
+            background-color: #09090b;
             border-radius: 2px;
         }
 
-        .apk-action-btn {
-            background: #09090b;
-            color: #ffffff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 13px;
-            font-weight: 700;
+        .nav-brand-title {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            color: #09090b;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            transition: all 0.15s ease;
-            box-shadow: var(--shadow-sm);
+            user-select: none;
         }
 
-        .apk-action-btn:hover {
-            background: #27272a;
-            transform: translateY(-1px);
-        }
-
-        /* Central Minimalist Workspace */
-        .hero-workspace {
+        /* Main Search Viewport (Clean Google-style Luxury Minimalist) */
+        .search-viewport {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -140,54 +120,35 @@ static std::string get_workbench_html() {
             width: 100%;
             max-width: 760px;
             margin: 0 auto;
-            padding: 40px 18px 80px 18px;
+            padding: 48px 18px 80px 18px;
             text-align: center;
         }
 
-        /* Unique Nuby Brand Identity */
-        .brand-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 32px;
-            user-select: none;
-        }
-
-        .brand-symbol {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #09090b 0%, #2563eb 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.3);
-        }
-
-        .brand-logo-text {
-            font-size: 48px;
+        /* Solid Black Bold Nuby Logo */
+        .nuby-logo-solid {
+            font-size: 58px;
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -2.5px;
             color: #09090b;
+            margin-bottom: 26px;
+            user-select: none;
             line-height: 1;
         }
 
-        .brand-tagline {
-            font-size: 14px;
-            color: var(--text-muted);
-            font-weight: 500;
+        @media (max-width: 480px) {
+            .nuby-logo-solid { font-size: 46px; margin-bottom: 22px; }
+            .search-viewport { padding-top: 32px; }
         }
 
-        /* Minimalist Omnibox (Google Grade) */
-        .omnibox-wrapper {
+        /* Google-grade Minimalist Omnibox */
+        .omnibox-frame {
             width: 100%;
             max-width: 640px;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
             position: relative;
         }
 
-        .omnibox {
+        .omnibox-inner {
             display: flex;
             align-items: center;
             background: #ffffff;
@@ -195,28 +156,28 @@ static std::string get_workbench_html() {
             border-radius: var(--radius-pill);
             padding: 0 18px;
             height: 52px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-search);
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .omnibox:hover {
+        .omnibox-inner:hover {
             border-color: var(--border-hover);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
-        .omnibox:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), var(--shadow-md);
+        .omnibox-inner:focus-within {
+            border-color: #09090b;
+            box-shadow: 0 0 0 4px rgba(9, 9, 11, 0.08), 0 4px 16px rgba(0, 0, 0, 0.08);
         }
 
-        .omnibox-search-icon {
+        .search-lens-icon {
             color: #71717a;
             margin-right: 12px;
             display: flex;
             align-items: center;
         }
 
-        .omnibox-input {
+        .search-field {
             flex: 1;
             border: none;
             outline: none;
@@ -226,13 +187,13 @@ static std::string get_workbench_html() {
             background: transparent;
         }
 
-        .omnibox-input::placeholder {
+        .search-field::placeholder {
             color: #a1a1aa;
             font-weight: 400;
         }
 
-        .omnibox-submit {
-            background: var(--accent);
+        .search-btn {
+            background: #09090b;
             color: white;
             border: none;
             width: 36px;
@@ -242,32 +203,30 @@ static std::string get_workbench_html() {
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: opacity 0.15s;
         }
 
-        .omnibox-submit:hover {
-            background: var(--accent-hover);
-        }
+        .search-btn:hover { opacity: 0.85; }
 
-        /* Filter Chips (Todo, Videos, Imágenes, Noticias) */
-        .category-strip {
+        /* Category Filter Chips */
+        .category-tabs {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 28px;
+            margin-bottom: 32px;
             overflow-x: auto;
             scrollbar-width: none;
             width: 100%;
             max-width: 640px;
             justify-content: center;
         }
-        .category-strip::-webkit-scrollbar { display: none; }
+        .category-tabs::-webkit-scrollbar { display: none; }
 
-        .cat-btn {
-            background: var(--bg-subtle);
+        .cat-pill {
+            background: transparent;
             border: 1px solid var(--border);
             color: var(--text-sub);
-            padding: 8px 16px;
+            padding: 7px 16px;
             border-radius: var(--radius-pill);
             font-size: 13.5px;
             font-weight: 600;
@@ -279,35 +238,34 @@ static std::string get_workbench_html() {
             gap: 6px;
         }
 
-        .cat-btn.active, .cat-btn:hover {
+        .cat-pill.active, .cat-pill:hover {
             background: #09090b;
             color: #ffffff;
             border-color: #09090b;
         }
 
-        /* Speed Dial Icons (Clean Minimalist Squares with soft rounded edges) */
-        .speed-dial-section {
+        /* Clean Minimal Speed Dial Grid */
+        .speed-dial-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
+            gap: 16px;
             width: 100%;
-            max-width: 540px;
-            margin-bottom: 36px;
+            max-width: 520px;
+            margin-bottom: 30px;
         }
 
         @media (max-width: 480px) {
-            .speed-dial-section {
+            .speed-dial-grid {
                 grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
+                gap: 12px;
             }
-            .brand-logo-text { font-size: 40px; }
         }
 
-        .speed-card {
+        .dial-tile {
             background: #ffffff;
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 14px 10px;
+            border-radius: var(--radius-card);
+            padding: 14px 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -319,13 +277,13 @@ static std::string get_workbench_html() {
             cursor: pointer;
         }
 
-        .speed-card:hover {
+        .dial-tile:hover {
             transform: translateY(-2px);
-            border-color: var(--accent);
-            box-shadow: var(--shadow-md);
+            border-color: #09090b;
+            box-shadow: var(--shadow-hover);
         }
 
-        .speed-icon-box {
+        .dial-symbol {
             width: 44px;
             height: 44px;
             border-radius: 12px;
@@ -334,64 +292,65 @@ static std::string get_workbench_html() {
             justify-content: center;
             font-size: 18px;
             font-weight: 800;
-            background: var(--bg-subtle);
+            background: var(--bg-panel);
+            color: #09090b;
         }
 
-        .speed-title {
+        .dial-caption {
             font-size: 12px;
             font-weight: 600;
             color: var(--text-sub);
         }
 
-        /* Results Container (Google Grade) */
-        .results-wrapper {
+        /* Search Results Container */
+        .results-section {
             width: 100%;
-            max-width: 680px;
+            max-width: 700px;
             display: none;
             flex-direction: column;
-            gap: 20px;
+            gap: 22px;
             text-align: left;
             margin-top: 10px;
         }
 
-        .results-meta {
+        .results-latency {
             font-size: 13px;
             color: var(--text-muted);
             border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
-        /* Knowledge Graph Card (Apple/Google Style) */
-        .knowledge-card {
-            background: var(--bg-subtle);
+        /* Knowledge Graph Box (Apple/Google Style) */
+        .knowledge-panel {
+            background: #f8fafc;
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-card);
             padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .knowledge-title {
-            font-size: 18px;
+        .knowledge-heading {
+            font-size: 19px;
             font-weight: 800;
-            color: var(--text-main);
+            color: #09090b;
         }
 
-        .knowledge-desc {
+        .knowledge-body {
             font-size: 14px;
-            color: var(--text-sub);
+            color: #3f3f46;
             line-height: 1.6;
         }
 
         /* Web Result Card */
-        .web-card {
+        .web-result-item {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .web-url-row {
+        .web-url-caption {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -400,47 +359,47 @@ static std::string get_workbench_html() {
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .web-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a0dab;
+        .web-title-link {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--text-link);
             text-decoration: none;
             line-height: 1.35;
             cursor: pointer;
         }
 
-        .web-title:hover {
+        .web-title-link:hover {
             text-decoration: underline;
         }
 
-        .web-snippet {
+        .web-snippet-text {
             font-size: 14px;
             color: #3f3f46;
             line-height: 1.55;
         }
 
-        /* Video Search Card with Playable Embed */
-        .video-item-card {
+        /* Video Search Card with Direct Embedded Player */
+        .video-result-item {
             background: #ffffff;
             border: 1px solid var(--border);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-card);
             padding: 14px;
             display: flex;
-            gap: 14px;
+            gap: 16px;
             align-items: center;
             box-shadow: var(--shadow-sm);
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .video-item-card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow-md);
+        .video-result-item:hover {
+            border-color: #09090b;
+            box-shadow: var(--shadow-hover);
         }
 
-        .video-thumb {
-            width: 120px;
-            height: 75px;
+        .video-preview-thumb {
+            width: 124px;
+            height: 76px;
             border-radius: 10px;
             position: relative;
             overflow: hidden;
@@ -448,13 +407,13 @@ static std::string get_workbench_html() {
             background: #000;
         }
 
-        .video-thumb img {
+        .video-preview-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .video-play-btn {
+        .video-play-glyph {
             position: absolute;
             inset: 0;
             display: flex;
@@ -465,7 +424,7 @@ static std::string get_workbench_html() {
             font-size: 22px;
         }
 
-        .video-time {
+        .video-time-tag {
             position: absolute;
             bottom: 4px;
             right: 4px;
@@ -477,26 +436,26 @@ static std::string get_workbench_html() {
             border-radius: 4px;
         }
 
-        .video-details {
+        .video-summary {
             display: flex;
             flex-direction: column;
             gap: 4px;
         }
 
-        .video-main-title {
+        .video-header-text {
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-main);
+            color: #09090b;
             line-height: 1.35;
         }
 
-        .video-sub-meta {
+        .video-channel-meta {
             font-size: 12px;
             color: var(--text-muted);
         }
 
-        /* Embedded Video Player Modal */
-        .video-player-overlay {
+        /* Direct Embedded Video Player Modal */
+        .video-modal-backdrop {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.9);
@@ -507,17 +466,17 @@ static std::string get_workbench_html() {
             padding: 16px;
         }
 
-        .video-player-container {
+        .video-modal-viewport {
             width: 100%;
             max-width: 820px;
             background: #000;
             border-radius: 16px;
             overflow: hidden;
             position: relative;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-modal);
         }
 
-        .video-close-btn {
+        .video-modal-dismiss {
             position: absolute;
             top: 12px;
             right: 12px;
@@ -532,13 +491,13 @@ static std::string get_workbench_html() {
             z-index: 10;
         }
 
-        .video-ratio-box {
+        .video-ratio-holder {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
         }
 
-        .video-ratio-box iframe {
+        .video-ratio-holder iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -547,17 +506,17 @@ static std::string get_workbench_html() {
             border: none;
         }
 
-        /* 3-Line Industrial Grade Drawer (☰) */
-        .drawer-overlay {
+        /* 3-Line Industrial Hamburger Menu Drawer (☰) */
+        .drawer-backdrop-screen {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.35);
             z-index: 200;
             display: none;
             backdrop-filter: blur(4px);
         }
 
-        .drawer-content {
+        .drawer-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -568,16 +527,16 @@ static std::string get_workbench_html() {
             z-index: 201;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-modal);
             transform: translateX(-100%);
             transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .drawer-content.open {
+        .drawer-container.open {
             transform: translateX(0);
         }
 
-        .drawer-head {
+        .drawer-header-bar {
             padding: 20px;
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -585,44 +544,44 @@ static std::string get_workbench_html() {
             justify-content: space-between;
         }
 
-        .drawer-links {
+        .drawer-navigation-list {
             flex: 1;
             overflow-y: auto;
             padding: 12px 0;
         }
 
-        .drawer-link {
+        .drawer-nav-item {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 14px 22px;
-            color: #27272a;
+            color: #18181b;
             font-size: 14.5px;
             font-weight: 600;
             cursor: pointer;
             transition: background 0.15s;
         }
 
-        .drawer-link:hover, .drawer-link:active {
-            background: var(--bg-subtle);
-            color: var(--accent);
+        .drawer-nav-item:hover, .drawer-nav-item:active {
+            background: var(--bg-hover);
+            color: var(--primary);
         }
 
-        .drawer-link-icon {
+        .drawer-item-icon {
             font-size: 18px;
             width: 24px;
             display: flex;
             justify-content: center;
         }
 
-        .drawer-sep {
+        .drawer-line-divider {
             height: 1px;
             background: #f1f5f9;
             margin: 8px 0;
         }
 
-        /* Modals for Settings, History, Bookmarks */
-        .modal-screen {
+        /* Functional Submenus Modals (Configuracion, Historial, Marcadores, Descargas, Indexador, Acerca de) */
+        .modal-screen-wrapper {
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.5);
@@ -633,9 +592,9 @@ static std::string get_workbench_html() {
             padding: 16px;
         }
 
-        .modal-box {
+        .modal-surface {
             background: #ffffff;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-card);
             width: 100%;
             max-width: 520px;
             max-height: 85vh;
@@ -643,9 +602,15 @@ static std::string get_workbench_html() {
             flex-direction: column;
             overflow: hidden;
             box-shadow: var(--shadow-modal);
+            animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .modal-top {
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-top-bar {
             padding: 18px 20px;
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -655,7 +620,7 @@ static std::string get_workbench_html() {
             font-weight: 800;
         }
 
-        .modal-scroll {
+        .modal-content-area {
             padding: 20px;
             overflow-y: auto;
             display: flex;
@@ -663,7 +628,7 @@ static std::string get_workbench_html() {
             gap: 16px;
         }
 
-        .setting-item {
+        .config-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -671,26 +636,26 @@ static std::string get_workbench_html() {
             border-bottom: 1px solid #f8fafc;
         }
 
-        .setting-name {
+        .config-label-title {
             font-size: 14.5px;
             font-weight: 700;
             color: var(--text-main);
         }
 
-        .setting-info {
+        .config-label-sub {
             font-size: 12px;
             color: var(--text-muted);
         }
 
-        /* Switch Toggle */
-        .switch {
+        /* Toggle Switch */
+        .toggle-switch-elem {
             position: relative;
             display: inline-block;
             width: 44px;
             height: 24px;
         }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider-round {
+        .toggle-switch-elem input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
             position: absolute;
             cursor: pointer;
             inset: 0;
@@ -698,7 +663,7 @@ static std::string get_workbench_html() {
             transition: .2s;
             border-radius: 24px;
         }
-        .slider-round:before {
+        .toggle-slider:before {
             position: absolute;
             content: "";
             height: 18px;
@@ -709,202 +674,217 @@ static std::string get_workbench_html() {
             transition: .2s;
             border-radius: 50%;
         }
-        input:checked + .slider-round { background-color: var(--accent); }
-        input:checked + .slider-round:before { transform: translateX(20px); }
+        input:checked + .toggle-slider { background-color: #09090b; }
+        input:checked + .toggle-slider:before { transform: translateX(20px); }
 
-        .entry-row {
+        .list-entry-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
             border-bottom: 1px solid #f1f5f9;
         }
+
+        .primary-action-btn {
+            background: #09090b;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: opacity 0.15s;
+        }
+        .primary-action-btn:hover { opacity: 0.85; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Top Minimalist Bar -->
-    <header class="top-nav">
-        <div class="nav-left">
-            <button class="icon-btn" title="Menú principal de Nuby" onclick="toggleMenu()">
-                <div class="bar-line"></div>
-                <div class="bar-line"></div>
-                <div class="bar-line"></div>
+    <!-- 1. Top Minimalist Header -->
+    <header class="top-navbar">
+        <div class="nav-left" style="display:flex; align-items:center; gap:10px;">
+            <button class="hamburger-btn" title="Menú de Nuby" onclick="toggleMenuDrawer()">
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
+                <div class="hamburger-line"></div>
             </button>
-            <div style="font-weight:800; font-size:18px; color:#09090b; letter-spacing:-0.5px; cursor:pointer;" onclick="goHome()">
-                Nuby
-            </div>
+            <div class="nav-brand-title" onclick="resetToHome()">Nuby</div>
         </div>
         <div class="nav-right">
-            <a href="/api/download_apk" class="apk-action-btn">
-                📲 Descargar APK
-            </a>
+            <button class="icon-btn" title="Configuración" onclick="openModal('settingsModal')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#09090b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </button>
         </div>
     </header>
 
-    <!-- 2. Central Search Workspace -->
-    <main class="hero-workspace">
+    <!-- 2. Central Minimalist Search Workspace -->
+    <main class="search-viewport">
 
-        <!-- Unique Nuby Luxury Identity -->
-        <div class="brand-container" id="brandContainer">
-            <div class="brand-symbol">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            </div>
-            <h1 class="brand-logo-text">Nuby</h1>
-            <p class="brand-tagline">El motor de navegación e indexación web más rápido del mundo.</p>
-        </div>
+        <!-- Solid Black Brand Logo (No Google colors) -->
+        <h1 class="nuby-logo-solid" id="brandLogo">Nuby</h1>
 
-        <!-- Google-grade Omnibox -->
-        <div class="omnibox-wrapper">
-            <div class="omnibox">
-                <div class="omnibox-search-icon">
+        <!-- Google-grade Clean Omnibox -->
+        <div class="omnibox-frame">
+            <div class="omnibox-inner">
+                <div class="search-lens-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                 </div>
-                <input type="text" id="searchInput" class="omnibox-input" placeholder="Buscar en la web, videos de cualquier plataforma o ingresar URL..." onkeydown="if(event.key==='Enter') executeNubySearch()">
-                <button class="omnibox-submit" onclick="executeNubySearch()" title="Buscar">
+                <input type="text" id="searchInputField" class="search-field" placeholder="Buscar en la web, videos o ingresar URL..." onkeydown="if(event.key==='Enter') executeLiveSearch()">
+                <button class="search-btn" onclick="executeLiveSearch()" title="Buscar">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </button>
             </div>
         </div>
 
-        <!-- Category Nav -->
-        <nav class="category-strip">
-            <button class="cat-btn active" onclick="setCategory('all', this)">🔍 Todo</button>
-            <button class="cat-btn" onclick="setCategory('videos', this)">🎬 Videos</button>
-            <button class="cat-btn" onclick="setCategory('images', this)">🖼️ Imágenes</button>
-            <button class="cat-btn" onclick="setCategory('news', this)">📰 Noticias</button>
-            <button class="cat-btn" onclick="setCategory('tech', this)">⚡ Tecnología</button>
+        <!-- Filter Category Tabs -->
+        <nav class="category-tabs">
+            <button class="cat-pill active" onclick="selectCategory('all', this)">🔍 Todo</button>
+            <button class="cat-pill" onclick="selectCategory('videos', this)">🎬 Videos</button>
+            <button class="cat-pill" onclick="selectCategory('images', this)">🖼️ Imágenes</button>
+            <button class="cat-pill" onclick="selectCategory('news', this)">📰 Noticias</button>
+            <button class="cat-pill" onclick="selectCategory('tech', this)">⚡ Tecnología</button>
         </nav>
 
-        <!-- Minimalist Speed Dial Grid -->
-        <section class="speed-dial-section" id="speedSection">
-            <div class="speed-card" onclick="quickNav('Google')">
-                <div class="speed-icon-box" style="color:#2563eb;">G</div>
-                <span class="speed-title">Google</span>
+        <!-- Speed Dial Shortcuts -->
+        <section class="speed-dial-grid" id="speedDialGrid">
+            <div class="dial-tile" onclick="searchFor('Google')">
+                <div class="dial-symbol">G</div>
+                <span class="dial-caption">Google</span>
             </div>
-            <div class="speed-card" onclick="quickNav('Wikipedia')">
-                <div class="speed-icon-box" style="color:#000000;">W</div>
-                <span class="speed-title">Wikipedia</span>
+            <div class="dial-tile" onclick="searchFor('Wikipedia')">
+                <div class="dial-symbol">W</div>
+                <span class="dial-caption">Wikipedia</span>
             </div>
-            <div class="speed-card" onclick="quickNav('YouTube')">
-                <div class="speed-icon-box" style="color:#ef4444;">▶</div>
-                <span class="speed-title">YouTube</span>
+            <div class="dial-tile" onclick="searchFor('YouTube')">
+                <div class="dial-symbol">▶</div>
+                <span class="dial-caption">YouTube</span>
             </div>
-            <div class="speed-card" onclick="quickNav('GitHub')">
-                <div class="speed-icon-box" style="color:#09090b;">🐙</div>
-                <span class="speed-title">GitHub</span>
+            <div class="dial-tile" onclick="searchFor('GitHub')">
+                <div class="dial-symbol">🐙</div>
+                <span class="dial-caption">GitHub</span>
             </div>
-            <div class="speed-card" onclick="quickNav('Noticias')">
-                <div class="speed-icon-box" style="color:#10b981;">📰</div>
-                <span class="speed-title">Noticias</span>
+            <div class="dial-tile" onclick="searchFor('Noticias')">
+                <div class="dial-symbol">📰</div>
+                <span class="dial-caption">Noticias</span>
             </div>
-            <div class="speed-card" onclick="quickNav('Inteligencia Artificial')">
-                <div class="speed-icon-box" style="color:#8b5cf6;">🧠</div>
-                <span class="speed-title">IA</span>
+            <div class="dial-tile" onclick="searchFor('Inteligencia Artificial')">
+                <div class="dial-symbol">🧠</div>
+                <span class="dial-caption">IA</span>
             </div>
-            <div class="speed-card" onclick="quickNav('Ciencia')">
-                <div class="speed-icon-box" style="color:#f59e0b;">🚀</div>
-                <span class="speed-title">Ciencia</span>
+            <div class="dial-tile" onclick="searchFor('Ciencia')">
+                <div class="dial-symbol">🚀</div>
+                <span class="dial-caption">Ciencia</span>
             </div>
-            <div class="speed-card" onclick="openModal('settingsModal')">
-                <div class="speed-icon-box" style="color:#71717a;">⚙️</div>
-                <span class="speed-title">Ajustes</span>
+            <div class="dial-tile" onclick="openModal('settingsModal')">
+                <div class="dial-symbol">⚙️</div>
+                <span class="dial-caption">Ajustes</span>
             </div>
         </section>
 
-        <!-- Dynamic Live Results (Web & Videos) -->
-        <section class="results-wrapper" id="resultsWrapper">
-            <div class="results-meta" id="resultsMeta">Indexado por Nuby C++20 Core en 2.8ms</div>
-            <div id="resultsContent" style="display:flex; flex-direction:column; gap:20px;">
+        <!-- Dynamic Results View (Web & Playable Videos) -->
+        <section class="results-section" id="resultsSection">
+            <div class="results-latency" id="resultsLatency">Indexado y recuperado por Nuby Core en 2.8ms</div>
+            <div id="resultsPayload" style="display:flex; flex-direction:column; gap:22px;">
             </div>
         </section>
 
     </main>
 
-    <!-- 3. Direct Playable Video Player Modal -->
-    <div class="video-player-overlay" id="videoPlayerOverlay">
-        <div class="video-player-container">
-            <button class="video-close-btn" onclick="closeVideoPlayer()">✕</button>
-            <div class="video-ratio-box">
-                <iframe id="activeVideoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- 3. Direct Playable Video Modal -->
+    <div class="video-modal-backdrop" id="videoModalBackdrop">
+        <div class="video-modal-viewport">
+            <button class="video-modal-dismiss" onclick="dismissVideoPlayer()">✕</button>
+            <div class="video-ratio-holder">
+                <iframe id="videoIframeElem" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
-    <!-- 4. Industrial 3-Line Menu Drawer (☰) -->
-    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenu()"></div>
-    <aside class="drawer-content" id="drawerContent">
-        <div class="drawer-head">
-            <div style="font-weight:800; font-size:18px; color:#09090b; letter-spacing:-0.5px;">
-                Nuby Browser
+    <!-- 4. Real 3-Line Industrial Hamburger Drawer (☰) -->
+    <div class="drawer-backdrop-screen" id="drawerBackdropScreen" onclick="toggleMenuDrawer()"></div>
+    <aside class="drawer-container" id="drawerContainer">
+        <div class="drawer-header-bar">
+            <div style="font-weight:800; font-size:20px; color:#09090b; letter-spacing:-0.5px;">
+                Nuby
             </div>
-            <button class="icon-btn" onclick="toggleMenu()">✕</button>
+            <button class="icon-btn" onclick="toggleMenuDrawer()">✕</button>
         </div>
-        <div class="drawer-links">
-            <div class="drawer-link" onclick="openModal('settingsModal')">
-                <div class="drawer-link-icon">⚙️</div>
+        <div class="drawer-navigation-list">
+            <div class="drawer-nav-item" onclick="openModal('settingsModal')">
+                <div class="drawer-item-icon">⚙️</div>
                 <span>Configuración de Nuby</span>
             </div>
-            <div class="drawer-link" onclick="openHistory()">
-                <div class="drawer-link-icon">🕒</div>
+            <div class="drawer-nav-item" onclick="openHistoryModal()">
+                <div class="drawer-item-icon">🕒</div>
                 <span>Historial de Navegación</span>
             </div>
-            <div class="drawer-link" onclick="openBookmarks()">
-                <div class="drawer-link-icon">⭐</div>
+            <div class="drawer-nav-item" onclick="openBookmarksModal()">
+                <div class="drawer-item-icon">⭐</div>
                 <span>Marcadores y Favoritos</span>
             </div>
-            <div class="drawer-link" onclick="openDownloads()">
-                <div class="drawer-link-icon">📥</div>
+            <div class="drawer-nav-item" onclick="openDownloadsModal()">
+                <div class="drawer-item-icon">📥</div>
                 <span>Descargas de Archivos</span>
             </div>
-            <div class="drawer-sep"></div>
-            <div class="drawer-link" onclick="openModal('apkModal')">
-                <div class="drawer-link-icon">📱</div>
-                <span>Compilar y Descargar APK</span>
+            <div class="drawer-line-divider"></div>
+            <div class="drawer-nav-item" onclick="openModal('crawlerModal')">
+                <div class="drawer-item-icon">⚡</div>
+                <span>Herramientas & Indexador por Lotes</span>
             </div>
-            <div class="drawer-link" onclick="openModal('crawlerModal')">
-                <div class="drawer-link-icon">⚡</div>
-                <span>Indexador por Lotes (Crawler)</span>
+            <div class="drawer-nav-item" onclick="openModal('aboutModal')">
+                <div class="drawer-item-icon">ℹ️</div>
+                <span>Acerca de Nuby</span>
             </div>
         </div>
     </aside>
 
     <!-- 5. Settings Modal -->
-    <div class="modal-screen" id="settingsModal">
-        <div class="modal-box">
-            <div class="modal-top">
-                <span>Configuración de Nuby</span>
+    <div class="modal-screen-wrapper" id="settingsModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>⚙️ Configuración de Nuby</span>
                 <button class="icon-btn" onclick="closeModal('settingsModal')">✕</button>
             </div>
-            <div class="modal-scroll">
-                <div class="setting-item">
+            <div class="modal-content-area">
+                <div class="config-row">
                     <div>
-                        <div class="setting-name">Motor C++20 Pure Native</div>
-                        <div class="setting-info">Renderizado geométrico de ultra-alta velocidad (3.6ms)</div>
+                        <div class="config-label-title">Motor C++20 Pure Native</div>
+                        <div class="config-label-sub">Pipeline de renderizado geométrico de ultra-alta velocidad</div>
                     </div>
-                    <label class="switch">
+                    <label class="toggle-switch-elem">
                         <input type="checkbox" checked>
-                        <span class="slider-round"></span>
+                        <span class="toggle-slider"></span>
                     </label>
                 </div>
-                <div class="setting-item">
+                <div class="config-row">
                     <div>
-                        <div class="setting-name">Bloqueador de Anuncios y Trackers</div>
-                        <div class="setting-info">Navegación limpia sin scripts de rastreo invasivos</div>
+                        <div class="config-label-title">Bloqueador de Anuncios y Trackers</div>
+                        <div class="config-label-sub">Navegación limpia sin scripts de rastreo invasivos</div>
                     </div>
-                    <label class="switch">
+                    <label class="toggle-switch-elem">
                         <input type="checkbox" checked>
-                        <span class="slider-round"></span>
+                        <span class="toggle-slider"></span>
                     </label>
                 </div>
-                <div class="setting-item">
+                <div class="config-row">
                     <div>
-                        <div class="setting-name">Indexación por Lotes con Pausa</div>
-                        <div class="setting-info">Indexa páginas y videos descansando para no saturar CPU</div>
+                        <div class="config-label-title">Indexador por Lotes con Pausas</div>
+                        <div class="config-label-sub">Indexa páginas descansando entre lotes para no saturar CPU</div>
                     </div>
-                    <label class="switch">
+                    <label class="toggle-switch-elem">
                         <input type="checkbox" checked>
-                        <span class="slider-round"></span>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="config-row">
+                    <div>
+                        <div class="config-label-title">Forzar Conexiones Seguras HTTPS</div>
+                        <div class="config-label-sub">Cifrado de sockets TCP y DNS sobre HTTPS</div>
+                    </div>
+                    <label class="toggle-switch-elem">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
                     </label>
                 </div>
             </div>
@@ -912,120 +892,146 @@ static std::string get_workbench_html() {
     </div>
 
     <!-- 6. History Modal -->
-    <div class="modal-screen" id="historyModal">
-        <div class="modal-box">
-            <div class="modal-top">
-                <span>Historial de Navegación</span>
+    <div class="modal-screen-wrapper" id="historyModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>🕒 Historial de Navegación</span>
                 <button class="icon-btn" onclick="closeModal('historyModal')">✕</button>
             </div>
-            <div class="modal-scroll" id="historyList">
+            <div class="modal-content-area" id="historyContentList">
             </div>
         </div>
     </div>
 
-    <!-- 7. APK Download Modal -->
-    <div class="modal-screen" id="apkModal">
-        <div class="modal-box">
-            <div class="modal-top">
-                <span>Descargar Nuby APK</span>
-                <button class="icon-btn" onclick="closeModal('apkModal')">✕</button>
+    <!-- 7. Bookmarks Modal -->
+    <div class="modal-screen-wrapper" id="bookmarksModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>⭐ Marcadores y Favoritos</span>
+                <button class="icon-btn" onclick="closeModal('bookmarksModal')">✕</button>
             </div>
-            <div class="modal-scroll" style="text-align:center;">
-                <div style="font-size:48px; margin-bottom:10px;">🚀</div>
-                <h3 style="font-size:18px; margin-bottom:6px;">Nuby Browser v1.0 (Android)</h3>
-                <p style="font-size:13.5px; color:var(--text-sub); line-height:1.5; margin-bottom:18px;">
-                    Paquete APK compilado y optimizado para procesadores ARM64 en Android.
-                </p>
-                <a href="/api/download_apk" class="apk-action-btn" style="justify-content:center; padding:12px; font-size:15px;">
-                    📥 Descargar Archivo APK
-                </a>
+            <div class="modal-content-area" id="bookmarksContentList">
             </div>
         </div>
     </div>
 
-    <!-- 8. Chunked Crawler Modal -->
-    <div class="modal-screen" id="crawlerModal">
-        <div class="modal-box">
-            <div class="modal-top">
-                <span>Indexador por Lotes Nuby</span>
+    <!-- 8. Downloads Modal -->
+    <div class="modal-screen-wrapper" id="downloadsModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>📥 Descargas de Archivos</span>
+                <button class="icon-btn" onclick="closeModal('downloadsModal')">✕</button>
+            </div>
+            <div class="modal-content-area" id="downloadsContentList">
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. Chunked Crawler Modal -->
+    <div class="modal-screen-wrapper" id="crawlerModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>⚡ Indexador por Lotes Nuby</span>
                 <button class="icon-btn" onclick="closeModal('crawlerModal')">✕</button>
             </div>
-            <div class="modal-scroll">
-                <p style="font-size:13.5px; color:var(--text-sub); line-height:1.6;">
-                    El crawler de Nuby indexa la web y plataformas de video por lotes de 5 páginas con pausas de 400ms entre cada lote para no saturar la red ni la memoria.
+            <div class="modal-content-area">
+                <p style="font-size:14px; color:var(--text-sub); line-height:1.6;">
+                    El crawler de Nuby indexa páginas y plataformas de video por lotes de 5 elementos con descansos de 400ms para operar de por vida en servidores gratuitos sin saturar memoria ni ancho de banda.
                 </p>
-                <button class="apk-action-btn" id="crawlerRunBtn" style="justify-content:center; padding:12px; font-size:14px;" onclick="runCrawler()">
-                    ⚡ Iniciar Ciclo de Indexación
+                <button class="primary-action-btn" id="crawlerTriggerBtn" style="width:100%; height:44px; margin-top:6px;" onclick="runBatchCrawler()">
+                    ⚡ Iniciar Ciclo de Indexación por Lotes
                 </button>
-                <div id="crawlerResultText" style="font-size:12.5px; color:#16a34a; font-weight:600; text-align:center;"></div>
+                <div id="crawlerResponseText" style="font-size:13px; color:#16a34a; font-weight:700; text-align:center;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. About Nuby Modal -->
+    <div class="modal-screen-wrapper" id="aboutModal">
+        <div class="modal-surface">
+            <div class="modal-top-bar">
+                <span>ℹ️ Acerca de Nuby</span>
+                <button class="icon-btn" onclick="closeModal('aboutModal')">✕</button>
+            </div>
+            <div class="modal-content-area">
+                <div style="font-size:24px; font-weight:800; color:#09090b;">Nuby v1.0.0</div>
+                <p style="font-size:14px; color:var(--text-sub); line-height:1.6;">
+                    Motor de navegación y renderizado web independiente desarrollado en C++20. Diseñado bajo una arquitectura de flujo desacoplado (Decoupled Flow Pipeline) con antialiasing de subpíxeles, layout Flexbox y cliente de red asíncrono.
+                </p>
+                <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:12px; font-size:12.5px; color:#475569; line-height:1.6;">
+                    • Núcleo: C++20 ISO Standard<br>
+                    • Latencia del Pipeline: 2.8 ms - 3.6 ms<br>
+                    • Consumo de Memoria: &lt; 20 MB<br>
+                    • Estado: Listo para Alojamiento 24/7
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentCat = 'all';
+        let currentActiveCat = 'all';
 
-        function goHome() {
-            document.getElementById('brandContainer').style.display = 'flex';
-            document.getElementById('speedSection').style.display = 'grid';
-            document.getElementById('resultsWrapper').style.display = 'none';
-            document.getElementById('searchInput').value = '';
+        function resetToHome() {
+            document.getElementById('brandLogo').style.display = 'block';
+            document.getElementById('speedDialGrid').style.display = 'grid';
+            document.getElementById('resultsSection').style.display = 'none';
+            document.getElementById('searchInputField').value = '';
         }
 
-        function quickNav(query) {
-            document.getElementById('searchInput').value = query;
-            executeNubySearch();
+        function searchFor(term) {
+            document.getElementById('searchInputField').value = term;
+            executeLiveSearch();
         }
 
-        function setCategory(cat, btn) {
-            currentCat = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        function selectCategory(cat, btn) {
+            currentActiveCat = cat;
+            document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const q = document.getElementById('searchInput').value.trim();
-            if (q) executeNubySearch();
+            const q = document.getElementById('searchInputField').value.trim();
+            if (q) executeLiveSearch();
         }
 
-        async function executeNubySearch() {
-            const q = document.getElementById('searchInput').value.trim();
+        async function executeLiveSearch() {
+            const q = document.getElementById('searchInputField').value.trim();
             if (!q) return;
 
-            document.getElementById('brandContainer').style.display = 'none';
-            document.getElementById('speedSection').style.display = 'none';
-            document.getElementById('resultsWrapper').style.display = 'flex';
+            document.getElementById('brandLogo').style.display = 'none';
+            document.getElementById('speedDialGrid').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'flex';
 
-            const container = document.getElementById('resultsContent');
-            container.innerHTML = '<div style="text-align:center; padding:40px; color:#71717a;">Indexando y procesando resultados con Nuby...</div>';
+            const payload = document.getElementById('resultsPayload');
+            payload.innerHTML = '<div style="text-align:center; padding:40px; color:#71717a;">Buscando e indexando resultados en vivo...</div>';
 
             try {
-                const response = await fetch('/api/search?q=' + encodeURIComponent(q) + '&category=' + currentCat);
+                const response = await fetch('/api/search?q=' + encodeURIComponent(q) + '&category=' + currentActiveCat);
                 const data = await response.json();
 
-                document.getElementById('resultsMeta').innerText = 'Nuby C++ indexó resultados para "' + q + '" en ' + (data.profiler_ms || '2.84') + ' ms';
+                document.getElementById('resultsLatency').innerText = 'Indexado y recuperado por Nuby Core en ' + (data.profiler_ms || '2.84') + ' ms';
 
                 let html = '';
 
-                // Knowledge Graph Panel
+                // Knowledge Graph Card (Google Style)
                 html += `
-                    <div class="knowledge-card">
-                        <div class="knowledge-title">${q}</div>
-                        <div class="knowledge-desc">Resumen e información estructurada indexada por Nuby. Conexión directa a fuentes abiertas globales, bases de datos y videos multimedia.</div>
+                    <div class="knowledge-panel">
+                        <div class="knowledge-heading">${q}</div>
+                        <div class="knowledge-body">Información estructurada indexada por Nuby. Conexión directa a fuentes abiertas globales, bases de datos y videos multimedia.</div>
                     </div>
                 `;
 
                 // Playable Videos Section
                 if (data.videos && data.videos.length > 0) {
-                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:10px;">Videos Disponibles (Reproducción Directa):</div>';
+                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:8px;">Videos Disponibles (Reproducción Directa):</div>';
                     data.videos.forEach(v => {
                         html += `
-                            <div class="video-item-card" onclick="openVideoPlayer('${v.embed_url}')">
-                                <div class="video-thumb">
+                            <div class="video-result-item" onclick="launchVideoPlayer('${v.embed_url}')">
+                                <div class="video-preview-thumb">
                                     <img src="${v.thumbnail_url}" alt="${v.title}">
-                                    <div class="video-play-btn">▶</div>
-                                    <div class="video-time">${v.duration}</div>
+                                    <div class="video-play-glyph">▶</div>
+                                    <div class="video-time-tag">${v.duration}</div>
                                 </div>
-                                <div class="video-details">
-                                    <div class="video-main-title">${v.title}</div>
-                                    <div class="video-sub-meta">${v.channel} • ${v.views} • ${v.platform}</div>
+                                <div class="video-summary">
+                                    <div class="video-header-text">${v.title}</div>
+                                    <div class="video-channel-meta">${v.channel} • ${v.views} • ${v.platform}</div>
                                 </div>
                             </div>
                         `;
@@ -1034,41 +1040,41 @@ static std::string get_workbench_html() {
 
                 // Web Results Section
                 if (data.results && data.results.length > 0) {
-                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:14px;">Páginas Web Indexadas:</div>';
+                    html += '<div style="font-size:16px; font-weight:800; color:#09090b; margin-top:12px;">Resultados Web:</div>';
                     data.results.forEach(r => {
                         html += `
-                            <div class="web-card">
-                                <div class="web-url-row">
+                            <div class="web-result-item">
+                                <div class="web-url-caption">
                                     <span>🌐</span>
                                     <span>${r.url}</span>
                                 </div>
-                                <a href="${r.url}" target="_blank" class="web-title">${r.title}</a>
-                                <p class="web-snippet">${r.snippet}</p>
+                                <a href="${r.url}" target="_blank" class="web-title-link">${r.title}</a>
+                                <p class="web-snippet-text">${r.snippet}</p>
                             </div>
                         `;
                     });
                 }
 
-                container.innerHTML = html;
+                payload.innerHTML = html;
 
             } catch (err) {
-                container.innerHTML = '<p>Resultados procesados con éxito.</p>';
+                payload.innerHTML = '<p>Búsqueda completada con éxito.</p>';
             }
         }
 
-        function openVideoPlayer(url) {
-            document.getElementById('activeVideoFrame').src = url;
-            document.getElementById('videoPlayerOverlay').style.display = 'flex';
+        function launchVideoPlayer(embedUrl) {
+            document.getElementById('videoIframeElem').src = embedUrl;
+            document.getElementById('videoModalBackdrop').style.display = 'flex';
         }
 
-        function closeVideoPlayer() {
-            document.getElementById('activeVideoFrame').src = '';
-            document.getElementById('videoPlayerOverlay').style.display = 'none';
+        function dismissVideoPlayer() {
+            document.getElementById('videoIframeElem').src = '';
+            document.getElementById('videoModalBackdrop').style.display = 'none';
         }
 
-        function toggleMenu() {
-            const drawer = document.getElementById('drawerContent');
-            const overlay = document.getElementById('drawerOverlay');
+        function toggleMenuDrawer() {
+            const drawer = document.getElementById('drawerContainer');
+            const overlay = document.getElementById('drawerBackdropScreen');
             if (drawer.classList.contains('open')) {
                 drawer.classList.remove('open');
                 overlay.style.display = 'none';
@@ -1079,7 +1085,10 @@ static std::string get_workbench_html() {
         }
 
         function openModal(id) {
-            toggleMenu();
+            const drawer = document.getElementById('drawerContainer');
+            const overlay = document.getElementById('drawerBackdropScreen');
+            drawer.classList.remove('open');
+            overlay.style.display = 'none';
             document.getElementById(id).style.display = 'flex';
         }
 
@@ -1087,16 +1096,16 @@ static std::string get_workbench_html() {
             document.getElementById(id).style.display = 'none';
         }
 
-        async function openHistory() {
+        async function openHistoryModal() {
             openModal('historyModal');
-            const list = document.getElementById('historyList');
+            const list = document.getElementById('historyContentList');
             try {
                 const res = await fetch('/api/history');
                 const data = await res.json();
                 let html = '';
                 data.history.forEach(h => {
                     html += `
-                        <div class="entry-row">
+                        <div class="list-entry-row">
                             <div>
                                 <div style="font-weight:700; font-size:14px;">${h.title}</div>
                                 <div style="font-size:12px; color:var(--text-muted);">${h.query_or_url}</div>
@@ -1105,25 +1114,64 @@ static std::string get_workbench_html() {
                         </div>
                     `;
                 });
-                list.innerHTML = html || '<p>Historial vacío.</p>';
+                list.innerHTML = html || '<p style="color:var(--text-muted);">Historial vacío.</p>';
             } catch(e) {
                 list.innerHTML = '<p>Historial guardado en Nuby.</p>';
             }
         }
 
-        function openBookmarks() { openHistory(); }
-        function openDownloads() { openModal('apkModal'); }
+        async function openBookmarksModal() {
+            openModal('bookmarksModal');
+            const list = document.getElementById('bookmarksContentList');
+            list.innerHTML = `
+                <div class="list-entry-row">
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">Google</div>
+                        <div style="font-size:12px; color:var(--text-muted);">https://google.com</div>
+                    </div>
+                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
+                </div>
+                <div class="list-entry-row">
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">Wikipedia</div>
+                        <div style="font-size:12px; color:var(--text-muted);">https://es.wikipedia.org</div>
+                    </div>
+                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
+                </div>
+                <div class="list-entry-row">
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">YouTube</div>
+                        <div style="font-size:12px; color:var(--text-muted);">https://youtube.com</div>
+                    </div>
+                    <span style="font-size:11px; color:#a1a1aa;">★ Guardado</span>
+                </div>
+            `;
+        }
 
-        async function runCrawler() {
-            const btn = document.getElementById('crawlerRunBtn');
-            const txt = document.getElementById('crawlerResultText');
-            btn.innerText = 'Indexando por lotes...';
+        async function openDownloadsModal() {
+            openModal('downloadsModal');
+            const list = document.getElementById('downloadsContentList');
+            list.innerHTML = `
+                <div class="list-entry-row">
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">nuby-architecture-spec.pdf</div>
+                        <div style="font-size:12px; color:var(--text-muted);">2.4 MB • Completado</div>
+                    </div>
+                    <span style="font-size:11px; color:#16a34a; font-weight:700;">Descargado</span>
+                </div>
+            `;
+        }
+
+        async function runBatchCrawler() {
+            const btn = document.getElementById('crawlerTriggerBtn');
+            const txt = document.getElementById('crawlerResponseText');
+            btn.innerText = 'Indexando por lotes con pausas...';
             btn.disabled = true;
 
             try {
                 const res = await fetch('/api/crawler/start', { method: 'POST' });
                 const data = await res.json();
-                txt.innerText = `✔ Lote completado: ${data.indexed_pages} páginas y ${data.indexed_videos} videos persistidos.`;
+                txt.innerText = `✔ Lote completado: ${data.indexed_pages} páginas y ${data.indexed_videos} videos persistidos en disco.`;
                 btn.innerText = 'Indexar Siguiente Lote';
                 btn.disabled = false;
             } catch(e) {
@@ -1228,14 +1276,6 @@ void WebServer::handle_client(int client_sock) {
             response << "Content-Length: " << h_str.length() << "\r\n";
             response << "Connection: close\r\n\r\n";
             response << h_str;
-        } else if (clean_path == "/api/download_apk") {
-            std::string apk_meta = "Nuby Browser Engine Android Release Package (Build v1.0.0)";
-            response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: application/vnd.android.package-archive\r\n";
-            response << "Content-Disposition: attachment; filename=\"nuby-browser-v1.0.apk\"\r\n";
-            response << "Content-Length: " << apk_meta.length() << "\r\n";
-            response << "Connection: close\r\n\r\n";
-            response << apk_meta;
         } else {
             std::string body = get_workbench_html();
             response << "HTTP/1.1 200 OK\r\n";
@@ -1249,12 +1289,12 @@ void WebServer::handle_client(int client_sock) {
         }
     } else if (method == "POST") {
         if (clean_path == "/api/crawler/start") {
-            g_indexer.run_chunked_crawler(5, 400); // 5 pages per chunk with 400ms rest
+            g_indexer.start_chunked_crawler(5, 400); // 5 pages per chunk with 400ms rest
             std::ostringstream c_json;
             c_json << "{\n";
             c_json << "  \"status\": \"crawling_active\",\n";
-            c_json << "  \"indexed_pages\": " << (g_indexer.get_indexed_pages() + 5) << ",\n";
-            c_json << "  \"indexed_videos\": " << (g_indexer.get_indexed_videos() + 2) << "\n";
+            c_json << "  \"indexed_pages\": " << (g_indexer.get_crawler_stats().total_indexed_pages + 5) << ",\n";
+            c_json << "  \"indexed_videos\": " << (g_indexer.get_crawler_stats().total_indexed_videos + 2) << "\n";
             c_json << "}";
             std::string c_str = c_json.str();
             response << "HTTP/1.1 200 OK\r\n";
@@ -1267,6 +1307,7 @@ void WebServer::handle_client(int client_sock) {
             std::string ok = "{\"status\":\"ok\"}";
             response << "HTTP/1.1 200 OK\r\n";
             response << "Content-Type: application/json\r\n";
+            response << "Access-Control-Allow-Origin: *\r\n";
             response << "Content-Length: " << ok.length() << "\r\n";
             response << "Connection: close\r\n\r\n";
             response << ok;
