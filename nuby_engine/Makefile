@@ -1,4 +1,4 @@
-CXX = g++
+CXX ?= $(shell which clang++ 2>/dev/null || which g++ 2>/dev/null || echo c++)
 CXXFLAGS = -std=c++20 -O3 -Wall -Wextra -pthread -I./include
 SRCS = src/core/types.cpp \
        src/css/css_value.cpp \
@@ -6,7 +6,6 @@ SRCS = src/core/types.cpp \
        src/server/web_server.cpp \
        src/main.cpp
 
-OBJS = $(SRCS:.cpp=.o)
 TARGET = bin/nuby_engine
 
 all: $(TARGET)
@@ -14,7 +13,7 @@ all: $(TARGET)
 $(TARGET): $(SRCS)
 	@mkdir -p bin
 	$(CXX) $(CXXFLAGS) $(SRCS) -o $(TARGET)
-	@echo "\033[1;32m[BUILD SUCCESS] Nuby Engine binary generated at $(TARGET)\033[0m"
+	@echo "\033[1;32m[BUILD SUCCESS] Nuby binary generated at $(TARGET)\033[0m"
 
 test: tests/test_engine.cpp src/core/types.cpp src/css/css_value.cpp src/css/css_rule.cpp src/server/web_server.cpp
 	@mkdir -p bin
