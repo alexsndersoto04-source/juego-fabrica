@@ -16,7 +16,7 @@ import urllib.parse
 from http.server import HTTPServer, ThreadingHTTPServer, BaseHTTPRequestHandler
 from typing import Dict, Any
 
-PORT = int(os.environ.get("PORT", 8080))
+PORT = int(os.environ.get("PORT", 10000))
 DB_PATH = os.path.join(os.path.dirname(__file__), "data", "nuby_massive.db")
 
 def init_database():
